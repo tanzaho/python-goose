@@ -80,30 +80,19 @@ class UpgradedImageIExtractor(ImageExtractor):
             "|mediaplex.com|adsatt|view.atdmt"
         )
 
-    def get_best_image(self, doc, topNode):
-        image = self.check_known_elements()
-        if image:
-            return image
+    def get_images(self, doc, top_node):
+        known_images = self.check_known_elements()
+        if len(known_images):
+            return known_images
 
-        image = self.check_large_images(topNode, 0, 0)
-        if image:
-            return image
-
-        image = self.check_meta_tag()
-        if image:
-            return image
-        return Image()
+        large_images = self.check_large_images(top_node, 0, 0)
+        meta_tag_images = self.check_meta_tag()
+        return large_images + meta_tag_images
 
     def check_meta_tag(self):
-        # check link tag
-        image = self.check_link_tag()
-        if image:
-            return image
-
-        # check opengraph tag
-        image = self.check_opengraph_tag()
-        if image:
-            return image
+        link_tag_images = self.check_link_tag()
+        open_graph_images = self.check_opengraph_tag()
+        return link_tag_images + open_graph_images
 
     def check_large_images(self, node, parent_depth_level, sibling_depth_level):
         """\
@@ -121,26 +110,28 @@ class UpgradedImageIExtractor(ImageExtractor):
         """
         good_images = self.get_image_candidates(node)
 
+        images = []
         if good_images:
             scored_images = self.fetch_images(good_images, parent_depth_level)
             if scored_images:
-                highscore_image = sorted(scored_images.items(),
-                                        key=lambda x: x[1], reverse=True)[0][0]
-                main_image = Image()
-                main_image.src = highscore_image.src
-                main_image.width = highscore_image.width
-                main_image.height = highscore_image.height
-                main_image.extraction_type = "bigimage"
-                main_image.confidence_score = 100 / len(scored_images) \
-                                    if len(scored_images) > 0 else 0
-                return main_image
+                for raw_image in scored_images:
+                    image = Image()
+                    image.src = raw_image.src
+                    image.width = raw_image.width
+                    image.height = raw_image.height
+                    image.extraction_type = "bigimage"
+                    image.confidence_score = 100 / len(scored_images) \
+                                        if len(scored_images) > 0 else 0
+                    images.append(image)
+        if len(images) > 0:
+            return images
 
         depth_obj = self.get_depth_level(node, parent_depth_level, sibling_depth_level)
         if depth_obj:
             return self.check_large_images(depth_obj.node,
                             depth_obj.parent_depth, depth_obj.sibling_depth)
 
-        return None
+        return images
 
     def get_depth_level(self, node, parent_depth, sibling_depth):
         MAX_PARENT_DEPTH = 2
@@ -318,11 +309,12 @@ class UpgradedImageIExtractor(ImageExtractor):
         """
         node = self.article.raw_doc
         meta = self.parser.getElementsByTag(node, tag='link', attr='rel', value='image_src')
+        images = []
         for item in meta:
             src = self.parser.getAttribute(item, attr='href')
             if src:
-                return self.get_image(item, src, extraction_type='linktag')
-        return None
+                images.append(self.get_image(item, src, extraction_type='linktag'))
+        return images
 
     def check_opengraph_tag(self):
         """\
@@ -331,11 +323,12 @@ class UpgradedImageIExtractor(ImageExtractor):
         """
         node = self.article.raw_doc
         meta = self.parser.getElementsByTag(node, tag='meta', attr='property', value='og:image')
+        images = []
         for item in meta:
             src = self.parser.getAttribute(item, attr='content')
             if src:
-                return self.get_image(item, src, extraction_type='opengraph')
-        return None
+                images.append(self.get_image(item, src, extraction_type='opengraph'))
+        return images
 
     def get_local_image(self, src):
         """\
@@ -365,42 +358,43 @@ class UpgradedImageIExtractor(ImageExtractor):
             for classname in classes:
                 KNOWN_IMG_DOM_NAMES.append(classname)
 
-        image = None
         doc = self.article.raw_doc
 
         def _check_elements(elements):
-            image = None
+            element_images = []
             for element in elements:
                 tag = self.parser.getTag(element)
                 if tag == 'img':
-                    image = element
-                    return image
+                    element_images.append(element)
                 else:
-                    images = self.parser.getElementsByTag(element, tag='img')
-                    if images:
-                        image = images[0]
-                        return image
-            return image
+                    element_sub_images = self.parser.getElementsByTag(element, tag='img')
+                    for element_sub_image in element_sub_images:
+                        element_images.append(element_sub_image)
+            return element_images
+
+        images = []
 
         # check for elements with known id
         for css in KNOWN_IMG_DOM_NAMES:
             elements = self.parser.getElementsByTag(doc, attr="id", value=css)
-            image = _check_elements(elements)
-            if image is not None:
-                src = self.parser.getAttribute(image, attr='src')
-                if src:
-                    return self.get_image(image, src, score=90, extraction_type='known')
+            element_images = _check_elements(elements)
+            if len(element_images):
+                for element_image in element_images:
+                    src = self.parser.getAttribute(element_image, attr='src')
+                    if src:
+                        images.append(self.get_image(element_image, src, score=90, extraction_type='known'))
 
         # check for elements with known classes
         for css in KNOWN_IMG_DOM_NAMES:
             elements = self.parser.getElementsByTag(doc, attr='class', value=css)
-            image = _check_elements(elements)
-            if image is not None:
-                src = self.parser.getAttribute(image, attr='src')
-                if src:
-                    return self.get_image(image, src, score=90, extraction_type='known')
+            element_images = _check_elements(elements)
+            if len(element_images):
+                for element_image in element_images:
+                    src = self.parser.getAttribute(element_image, attr='src')
+                    if src:
+                        images.append(self.get_image(element_image, src, score=90, extraction_type='known'))
 
-        return None
+        return images
 
     def build_image_path(self, src):
         """\

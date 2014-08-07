@@ -88,32 +88,33 @@ class ImageExtractionTests(TestExtractionBase):
             setattr(image, k, v)
         return image
 
-    def assert_top_image(self, fields, expected_value, result_image):
+    def assert_images(self, fields, expected_values, result_images):
         # test if the result value
         # is an Goose Image instance
-        msg = u"Result value is not a Goose Image instance"
-        self.assertTrue(isinstance(result_image, Image), msg=msg)
+        for expected_value, result_image in zip(expected_values, result_images):
+            msg = u"Result value is not a Goose Image instance"
+            self.assertTrue(isinstance(result_image, Image), msg=msg)
 
-        # expected image
-        expected_image = self.getExpectedImage(expected_value)
-        msg = u"Expected value is not a Goose Image instance"
-        self.assertTrue(isinstance(expected_image, Image), msg=msg)
+            # expected image
+            expected_image = self.getExpectedImage(expected_value)
+            msg = u"Expected value is not a Goose Image instance"
+            self.assertTrue(isinstance(expected_image, Image), msg=msg)
 
-        # check
-        msg = u"Returned Image is not the one expected"
-        self.assertEqual(expected_image.src, result_image.src, msg=msg)
+            # check
+            msg = u"Returned Image is not the one expected"
+            self.assertEqual(expected_image.src, result_image.src, msg=msg)
 
-        fields = vars(expected_image)
-        for k, v in fields.items():
-            msg = u"Returned Image attribute %s is not the one expected" % k
-            self.assertEqual(getattr(expected_image, k), getattr(result_image, k), msg=msg)
+            fields = vars(expected_image)
+            for k, v in fields.items():
+                msg = u"Returned Image attribute %s is not the one expected" % k
+                self.assertEqual(getattr(expected_image, k), getattr(result_image, k), msg=msg)
 
-    def test_basic_image(self):
+    def test_basic_images(self):
         article = self.getArticle()
-        fields = ['top_image']
+        fields = ['images']
         self.runArticleAssertions(article=article, fields=fields)
 
-    def _test_known_image_css(self, article):
+    def _test_known_images_css(self, article):
         # check if we have an image in article.top_node
         images = self.parser.getElementsByTag(article.top_node,  tag='img')
         self.assertEqual(len(images), 0)
@@ -121,43 +122,43 @@ class ImageExtractionTests(TestExtractionBase):
         # we dont' have an image in article.top_node
         # check if the correct image was retrieved
         # using the known-image-css.txt
-        fields = ['cleaned_text', 'top_image']
+        fields = ['cleaned_text', 'images']
         self.runArticleAssertions(article=article, fields=fields)
 
-    def test_known_image_name_parent(self):
+    def test_known_images_name_parent(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
-    def test_known_image_css_parent_class(self):
+    def test_known_images_css_parent_class(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
-    def test_known_image_css_parent_id(self):
+    def test_known_images_css_parent_id(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
-    def test_known_image_css_class(self):
+    def test_known_images_css_class(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
-    def test_known_image_css_id(self):
+    def test_known_images_css_id(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
-    def test_known_image_empty_src(self):
+    def test_known_images_empty_src(self):
         'Tests that img tags for known image sources with empty src attributes are skipped.'
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
     def test_opengraph_tag(self):
         article = self.getArticle()
-        self._test_known_image_css(article)
+        self._test_known_images_css(article)
 
 
 class ImageUtilsTests(unittest.TestCase):
 
     def setUp(self):
-        self.path = 'tests/data/images/test_basic_image/50850547cc7310bc53e30e802c6318f1'
+        self.path = 'tests/data/images/test_basic_images/50850547cc7310bc53e30e802c6318f1'
         self.expected_results = {
             'width': 476,
             'height': 317,
