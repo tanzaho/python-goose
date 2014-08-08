@@ -355,6 +355,20 @@ class TestExtractions(TestExtractionBase):
         fields = ['cleaned_text']
         self.runArticleAssertions(article=article, fields=fields)
 
+class TestPublishDate(TestExtractionBase):
+
+    def test_publish_date(self):
+        article = self.getArticle()
+        self.runArticleAssertions(article=article, fields=['publish_date'])
+
+    def test_publish_date_rnews(self):
+        article = self.getArticle()
+        self.runArticleAssertions(article=article, fields=['publish_date'])
+
+    def test_publish_date_article(self):
+        article = self.getArticle()
+        self.runArticleAssertions(article=article, fields=['publish_date'])
+
 
 class TestExtractWithUrl(TestExtractionBase):
 
