@@ -82,7 +82,7 @@ class UpgradedImageIExtractor(ImageExtractor):
 
     def get_images(self, doc, top_node):
         known_images = self.check_known_elements()
-        if len(known_images):
+        if len(known_images) > 0:
             return known_images
 
         large_images = self.check_large_images(top_node, 0, 0)
