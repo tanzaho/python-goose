@@ -59,7 +59,7 @@ Take it for a spin
     "Occupy London protesters who have been camped outside the landmark St. Paul's Cathedral for the past four months lost their court bid to avoid eviction Wednesday in a decision made by London's Court of Appeal."
     >>> article.cleaned_text[:150]
     (CNN) -- Occupy London protesters who have been camped outside the landmark St. Paul's Cathedral for the past four months lost their court bid to avoi
-    >>> article.top_image.src
+    >>> article.images[0].src
     http://i2.cdn.turner.com/cnn/dam/assets/111017024308-occupy-london-st-paul-s-cathedral-story-top.jpg
 
 Configuration

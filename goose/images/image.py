@@ -26,7 +26,7 @@ class Image(object):
 
     def __init__(self):
         # holds the Element node of the image we think is top dog
-        self.top_image_node = None
+        self.parent_node = None
 
         # holds the src of the image
         self.src = ""
