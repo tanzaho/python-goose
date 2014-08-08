@@ -1,0 +1,32 @@
+{
+    "url": "http://blogs.kusp.org/filmgang/2013/02/08/stand-up-guys/",
+    "expected": {
+        "images": [
+            {
+                "extraction_type": "bigimage",
+                "src": "http://md0.libe.com/photo/465395/?modified_at=1351411813&ratio_x=03&ratio_y=02&width=476",
+                "confidence_score": 50,
+                "bytes": 0,
+                "height": 317,
+                "width": 476,
+                "parent_node": null
+            }, {
+                "extraction_type": "bigimage",
+                "src": "http://media-cache-ec0.pinimg.com/474x/bf/c1/b2/bfc1b255aec2be864576ea6a5f3981d4.jpg",
+                "confidence_score": 50,
+                "bytes": 0,
+                "height": 670,
+                "width": 474,
+                "parent_node": null
+            }, {
+                "extraction_type": "opengraph",
+                "src": "http://md0.libe.com/photo/465395/?modified_at=1351411813",
+                "confidence_score": 100,
+                "bytes": 0,
+                "height": 0,
+                "width": 0,
+                "parent_node": null
+            }
+        ]
+    }
+}
