@@ -1,7 +1,6 @@
 {
     "url": "http://go.com/bla/bla",
     "expected": {
-        "cleaned_text" : "TextNode 1 - The Scala supported IDE is one of the few pain points of developers who want to start u",
         "images": [{
             "extraction_type": "known",
             "src": "http://go.com/images/465395/",
