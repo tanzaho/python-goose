@@ -89,9 +89,15 @@ class ImageExtractionTests(TestExtractionBase):
         return image
 
     def assert_images(self, fields, expected_values, result_images):
-        # test if the result value
-        # is an Goose Image instance
-        for expected_value, result_image in zip(expected_values, result_images):
+        for expected_value in expected_values:
+            if expected_value['src'] == '':
+                continue
+
+            result_image = None
+            for result_image_candidate in result_images:
+                if result_image_candidate.src == expected_value['src']:
+                    result_image = result_image_candidate
+
             msg = u"Result value is not a Goose Image instance"
             self.assertTrue(isinstance(result_image, Image), msg=msg)
 
@@ -122,7 +128,7 @@ class ImageExtractionTests(TestExtractionBase):
         # we dont' have an image in article.top_node
         # check if the correct image was retrieved
         # using the known-image-css.txt
-        fields = ['cleaned_text', 'images']
+        fields = ['images']
         self.runArticleAssertions(article=article, fields=fields)
 
     def test_known_images_name_parent(self):
