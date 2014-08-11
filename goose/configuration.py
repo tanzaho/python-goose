@@ -91,18 +91,6 @@ class Configuration(object):
     def get_parser(self):
         return Parser if self.parser_class == 'lxml' else ParserSoup
 
-    def get_publishdate_extractor(self):
-        return self.extract_publishdate
-
-    def set_publishdate_extractor(self, extractor):
-        """\
-        Pass in to extract article publish dates.
-        @param extractor a concrete instance of PublishDateExtractor
-        """
-        if not extractor:
-            raise ValueError("extractor must not be null!")
-        self.extract_publishdate = extractor
-
     def get_additionaldata_extractor(self):
         return self.additional_data_extractor
 
