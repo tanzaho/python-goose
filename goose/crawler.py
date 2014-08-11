@@ -127,7 +127,7 @@ class Crawler(object):
             self.article.top_node = self.extractor.post_cleanup()
 
             # clean_text
-            self.article.cleaned_text = self.formatter.get_formatted_text()
+            self.article.content_html = self.formatter.content_html()
 
         # cleanup tmp file
         self.relase_resources()

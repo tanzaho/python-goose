@@ -28,11 +28,11 @@ class Article(object):
         # title of the article
         self.title = None
 
-        # stores the lovely, pure text from the article,
+        # stores the lovely, content HTML from the article,
         # stripped of html, formatting, etc...
         # just raw text with paragraphs separated by newlines.
         # This is probably what you want to use.
-        self.cleaned_text = u""
+        self.content_html = u""
 
         # meta description field in HTML source
         self.meta_description = u""

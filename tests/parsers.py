@@ -146,18 +146,6 @@ class ParserBase(unittest.TestCase):
         result = self.parser.nodeToString(doc)
         self.assertEqual(html, result)
 
-    def test_striptags(self):
-        html = '<html><body>'
-        html += '<p>this is a test <a>link</a> and this is <strong>strong</strong></p>'
-        html += '</body></html>'
-        expected = '<html><body>'
-        expected += '<p>this is a test link and this is strong</p>'
-        expected += '</body></html>'
-        doc = self.parser.fromstring(html)
-        self.parser.stripTags(doc, 'a', 'strong')
-        result = self.parser.nodeToString(doc)
-        self.assertEqual(expected, result)
-
     def test_getElementsByTags(self):
         html = '<html><body>'
         html += '<p>this is a test <a class="link">link</a> and this is <strong class="link">strong</strong></p>'

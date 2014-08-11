@@ -492,7 +492,7 @@ class ContentExtractor(object):
         on like paragraphs and tables
         """
         nodes_to_check = []
-        for tag in ['p', 'pre', 'td']:
+        for tag in ['p', 'pre', 'td', 'blockquote']:
             items = self.parser.getElementsByTag(doc, tag=tag)
             nodes_to_check += items
         return nodes_to_check
@@ -509,12 +509,20 @@ class ContentExtractor(object):
             return True
         return False
 
+    def have_images(self, element):
+        images = self.parser.getElementsByTag(element, tag='img')
+        if len(images) > 0:
+            return True
+        return False
+
     def is_nodescore_threshold_met(self, node, e):
         top_node_score = self.get_score(node)
         current_nodeScore = self.get_score(e)
         thresholdScore = float(top_node_score * .08)
 
-        if (current_nodeScore < thresholdScore) and e.tag != 'td':
+        if (current_nodeScore < thresholdScore) and \
+            e.tag != 'td' \
+            and not self.have_images(e):
             return False
         return True
 
@@ -527,7 +535,7 @@ class ContentExtractor(object):
         node = self.add_siblings(targetNode)
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
-            if e_tag != 'p':
+            if e_tag not in ['p', 'img', 'ul', 'ol']:
                 if self.is_highlink_density(e) \
                     or self.is_table_and_no_para_exist(e) \
                     or not self.is_nodescore_threshold_met(node, e):

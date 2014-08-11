@@ -63,10 +63,6 @@ class Parser(object):
         node.tag = tag
 
     @classmethod
-    def stripTags(self, node, *tags):
-        etree.strip_tags(node, *tags)
-
-    @classmethod
     def getElementById(self, node, idd):
         selector = '//*[@id="%s"]' % idd
         elems = node.xpath(selector)
