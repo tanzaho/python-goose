@@ -54,7 +54,7 @@ class DocumentCleaner(object):
         self.nauthy_ids_re = "//*[re:test(@id, '%s', 'i')]" % self.remove_nodes_re
         self.nauthy_classes_re = "//*[re:test(@class, '%s', 'i')]" % self.remove_nodes_re
         self.nauthy_names_re = "//*[re:test(@name, '%s', 'i')]" % self.remove_nodes_re
-        self.div_to_p_re = r"<(a|blockquote|dl|div|img|ol|p|pre|table|ul)"
+        self.nauthy_tags = ["noscript"]
         self.caption_re = "^caption$"
         self.google_re = " google "
         self.entries_re = "^[^entry-]more.*$"
@@ -70,7 +70,6 @@ class DocumentCleaner(object):
         doc_to_clean = self.article.doc
         doc_to_clean = self.clean_body_classes(doc_to_clean)
         doc_to_clean = self.clean_article_tags(doc_to_clean)
-        doc_to_clean = self.clean_em_tags(doc_to_clean)
         doc_to_clean = self.remove_drop_caps(doc_to_clean)
         doc_to_clean = self.remove_scripts_styles(doc_to_clean)
         doc_to_clean = self.clean_bad_tags(doc_to_clean)
@@ -99,14 +98,6 @@ class DocumentCleaner(object):
         for article in articles:
             for attr in ['id', 'name', 'class']:
                 self.parser.delAttribute(article, attr=attr)
-        return doc
-
-    def clean_em_tags(self, doc):
-        ems = self.parser.getElementsByTag(doc, tag='em')
-        for node in ems:
-            images = self.parser.getElementsByTag(node, tag='img')
-            if len(images) == 0:
-                self.parser.drop_tag(node)
         return doc
 
     def remove_drop_caps(self, doc):
@@ -149,6 +140,11 @@ class DocumentCleaner(object):
         naughty_names = self.parser.xpath_re(doc, self.nauthy_names_re)
         for node in naughty_names:
             self.parser.remove(node)
+
+        for nauthy_tag in self.nauthy_tags:
+            nodes = self.parser.getElementsByTag(doc, tag=nauthy_tag)
+            for node in nodes:
+                self.parser.remove(node)
 
         return doc
 
