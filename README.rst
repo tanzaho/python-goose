@@ -57,8 +57,7 @@ Take it for a spin
     u'Occupy London loses eviction fight'
     >>> article.meta_description
     "Occupy London protesters who have been camped outside the landmark St. Paul's Cathedral for the past four months lost their court bid to avoid eviction Wednesday in a decision made by London's Court of Appeal."
-    >>> article.cleaned_text[:150]
-    (CNN) -- Occupy London protesters who have been camped outside the landmark St. Paul's Cathedral for the past four months lost their court bid to avoi
+    >>> article.content_html
     >>> article.images[0].src
     http://i2.cdn.turner.com/cnn/dam/assets/111017024308-occupy-london-st-paul-s-cathedral-story-top.jpg
 
@@ -98,8 +97,7 @@ tags
     >>> article = g.extract(url=url)
     >>> article.title
     u'Las listas de espera se agravan'
-    >>> article.cleaned_text[:150]
-    u'Los recortes pasan factura a los pacientes. De diciembre de 2010 a junio de 2012 las listas de espera para operarse aumentaron un 125%. Hay m\xe1s ciudad'
+    >>> article.content_html
 
 Some pages don't have correct meta language tags, you can force it using
 configuration :
@@ -110,8 +108,7 @@ configuration :
     >>> url = 'http://www.elmundo.es/elmundo/2012/10/28/espana/1351388909.html'
     >>> g = Goose({'use_meta_language': False, 'target_language':'es'})
     >>> article = g.extract(url=url)
-    >>> article.cleaned_text[:150]
-    u'Importante golpe a la banda terrorista ETA en Francia. La Guardia Civil ha detenido en un hotel de Macon, a 70 kil\xf3metros de Lyon, a Izaskun Lesaka y '
+    >>> article.content_html
 
 Passing {'use\_meta\_language': False, 'target\_language':'es'} will
 force as configuration will force the spanish language
@@ -155,12 +152,7 @@ passed to the config object
     >>> url  = 'http://www.bbc.co.uk/zhongwen/simp/chinese_news/2012/12/121210_hongkong_politics.shtml'
     >>> g = Goose({'stopwords_class': StopWordsChinese})
     >>> article = g.extract(url=url)
-    >>> print article.cleaned_text[:150]
-    香港行政长官梁振英在各方压力下就其大宅的违章建筑（僭建）问题到立法会接受质询，并向香港民众道歉。
-
-    梁振英在星期二（12月10日）的答问大会开始之际在其演说中道歉，但强调他在违章建筑问题上没有隐瞒的意图和动机。
-
-    一些亲北京阵营议员欢迎梁振英道歉，且认为应能获得香港民众接受，但这些议员也质问梁振英有
+    >>> print article.content_html
 
 Goose in Arabic
 ---------------
@@ -175,9 +167,7 @@ class.
     >>> url = 'http://arabic.cnn.com/2013/middle_east/8/3/syria.clashes/index.html'
     >>> g = Goose({'stopwords_class': StopWordsArabic})
     >>> article = g.extract(url=url)
-    >>> print article.cleaned_text[:150]
-    دمشق، سوريا (CNN) -- أكدت جهات سورية معارضة أن فصائل مسلحة معارضة لنظام الرئيس بشار الأسد وعلى صلة بـ"الجيش الحر" تمكنت من السيطرة على مستودعات للأسل
-
+    >>> print article.content_html
 
 Goose in Korean
 ----------------
@@ -192,11 +182,7 @@ class.
     >>> url='http://news.donga.com/3/all/20131023/58406128/1'
     >>> g = Goose({'stopwords_class':StopWordsKorean})
     >>> article = g.extract(url=url)
-    >>> print article.cleaned_text[:150]
-    경기도 용인에 자리 잡은 민간 시험인증 전문기업 ㈜디지털이엠씨(www.digitalemc.com). 
-    14년째 세계 각국의 통신·안전·전파 규격 시험과 인증 한 우물만 파고 있는 이 회사 박채규 대표가 만나기로 한 주인공이다. 
-    그는 전기전자·무선통신·자동차 전장품 분야에
-
+    >>> print article.content_html
 
 Known issues
 ------------
@@ -212,8 +198,7 @@ Known issues
     >>> raw_html = response.read()
     >>> g = goose.Goose()
     >>> a = g.extract(raw_html=raw_html)
-    >>> a.cleaned_text
-    u'CAIRO \u2014 For a moment, at least, American and European diplomats trying to defuse the volatile standoff in Egypt thought they had a breakthrough.\n\nAs t'
+    >>> a.content_html
 
 TODO
 ----
