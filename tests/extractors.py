@@ -410,17 +410,14 @@ class TestExtractions(TestExtractionBase):
 class TestPublishDate(TestExtractionBase):
 
     def test_publish_date(self):
-        return 'pending'
         article = self.getArticle()
         self.runArticleAssertions(article=article, fields=['publish_date'])
 
     def test_publish_date_rnews(self):
-        return 'pending'
         article = self.getArticle()
         self.runArticleAssertions(article=article, fields=['publish_date'])
 
     def test_publish_date_article(self):
-        return 'pending'
         article = self.getArticle()
         self.runArticleAssertions(article=article, fields=['publish_date'])
 
