@@ -403,7 +403,6 @@ class TestExtractions(TestExtractionBase):
         self.runArticleAssertions(article=article, fields=fields)
 
     def test_bbc(self):
-        return 'pending'
         article = self.getArticle()
         self.assert_content_html(article)
 
