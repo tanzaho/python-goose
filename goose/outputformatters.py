@@ -22,7 +22,6 @@ limitations under the License.
 """
 from HTMLParser import HTMLParser
 from goose.text import innerTrim
-from lxml.etree import tostring
 from lxml.html import clean
 
 
@@ -50,8 +49,9 @@ class OutputFormatter(object):
         return self.to_clean_html_string()
 
     def to_clean_html_string(self):
-        html_string = tostring(self.top_node)
-        return self.clean_attributes(html_string)
+        html_string = self.parser.nodeToString(self.top_node)
+        clean_html_string = self.clean_attributes(html_string)
+        return innerTrim(clean_html_string)
 
     def clean_attributes(self, html_string):
         def safe_attrs():
