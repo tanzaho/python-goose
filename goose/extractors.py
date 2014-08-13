@@ -521,8 +521,7 @@ class ContentExtractor(object):
         thresholdScore = float(top_node_score * .08)
 
         if (current_nodeScore < thresholdScore) and \
-            e.tag != 'td' \
-            and not self.have_images(e):
+            e.tag != 'td':
             return False
         return True
 
@@ -536,9 +535,10 @@ class ContentExtractor(object):
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
             if e_tag not in ['p', 'img', 'ul', 'ol']:
-                if self.is_highlink_density(e) \
+                if (self.is_highlink_density(e) \
                     or self.is_table_and_no_para_exist(e) \
-                    or not self.is_nodescore_threshold_met(node, e):
+                    or not self.is_nodescore_threshold_met(node, e)) \
+                    and not self.have_images(e):
                     self.parser.remove(e)
         return node
 

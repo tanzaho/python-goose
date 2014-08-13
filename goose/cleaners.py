@@ -144,7 +144,14 @@ class DocumentCleaner(object):
         for nauthy_tag in self.nauthy_tags:
             nodes = self.parser.getElementsByTag(doc, tag=nauthy_tag)
             for node in nodes:
-                self.parser.remove(node)
+                images = self.parser.getElementsByTag(node, tag='img')
+                if images:
+                    parent = node.getparent()
+                    parent_index = parent.index(node)
+                    for image in images:
+                        parent.insert(parent_index, image)
+                else:
+                    self.parser.remove(node)
 
         return doc
 
