@@ -55,7 +55,6 @@ class DocumentCleaner(object):
         self.nauthy_classes_re = "//*[re:test(@class, '%s', 'i')]" % self.remove_nodes_re
         self.nauthy_names_re = "//*[re:test(@name, '%s', 'i')]" % self.remove_nodes_re
         self.nauthy_tags = ["noscript"]
-        self.caption_re = "^caption$"
         self.google_re = " google "
         self.entries_re = "^[^entry-]more.*$"
         self.facebook_re = "[^-]facebook"
@@ -73,7 +72,6 @@ class DocumentCleaner(object):
         doc_to_clean = self.remove_drop_caps(doc_to_clean)
         doc_to_clean = self.remove_scripts_styles(doc_to_clean)
         doc_to_clean = self.clean_bad_tags(doc_to_clean)
-        doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.caption_re)
         doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.google_re)
         doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.entries_re)
         doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.facebook_re)
