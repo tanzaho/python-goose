@@ -406,6 +406,14 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+    def test_huffingtonpost(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
+    def test_theguardian(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 class TestPublishDate(TestExtractionBase):
 
     def test_publish_date(self):
