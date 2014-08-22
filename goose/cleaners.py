@@ -201,9 +201,6 @@ class DocumentCleaner(object):
                                     attr='grv-usedalready', value='yes')
                         prev = self.parser.previousSibling(previous_sibling_node)
                         previous_sibling_node = prev if prev is not None else None
-                    # append replace_text
-                    replacement_text.append(replace_text)
-                    #
                     next_sibling_node = self.parser.nextSibling(kid_text_node)
                     while next_sibling_node is not None \
                         and self.parser.getTag(next_sibling_node) == "a" \

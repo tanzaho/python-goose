@@ -532,9 +532,10 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
+        allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em']
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
-            if e_tag not in ['p', 'img', 'ul', 'ol']:
+            if e_tag not in allowed_tags:
                 if (self.is_highlink_density(e) \
                     or self.is_table_and_no_para_exist(e) \
                     or not self.is_nodescore_threshold_met(node, e)) \
