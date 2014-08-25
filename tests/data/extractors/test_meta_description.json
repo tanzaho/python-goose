@@ -1,0 +1,6 @@
+{
+  "url": "http://example.com/example",
+    "expected": {
+        "meta_description": "some description"
+    }
+}
