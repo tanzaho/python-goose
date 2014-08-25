@@ -428,6 +428,12 @@ class TestPublishDate(TestExtractionBase):
         article = self.getArticle()
         self.runArticleAssertions(article=article, fields=['publish_date'])
 
+class TestMetaDescription(TestExtractionBase):
+
+    def test_meta_description(self):
+        article = self.getArticle()
+        self.runArticleAssertions(article=article, fields=['meta_description'])
+
 
 class TestExtractWithUrl(TestExtractionBase):
 

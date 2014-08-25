@@ -44,6 +44,12 @@ KNOWN_PUBLISH_DATE_META_TAGS = [
     {'attribute': 'property', 'value': 'article:published_time'},
     {'attribute': 'name', 'value': 'OriginalPublicationDate'},
 ]
+KNOWN_DESCRIPTION_META_TAGS = [
+    {'attribute': 'name', 'value': 'description'},
+    {'attribute': 'property', 'value': 'og:description'},
+    {'attribute': 'property', 'value': 'rnews:description'},
+    {'attribute': 'name', 'value': 'Description'}
+]
 
 
 class ContentExtractor(object):
@@ -124,7 +130,10 @@ class ContentExtractor(object):
         return TITLE_REPLACEMENTS.replaceAll(title).strip()
 
     def get_publish_date(self):
-        for known_meta_tag in KNOWN_PUBLISH_DATE_META_TAGS:
+        return self.get_from_known_meta_tags(KNOWN_PUBLISH_DATE_META_TAGS)
+
+    def get_from_known_meta_tags(self, known_meta_tags):
+        for known_meta_tag in known_meta_tags:
             meta_tags = self.parser.getElementsByTag(self.article.doc,
                                                 tag='meta',
                                                 attr=known_meta_tag['attribute'],
@@ -187,10 +196,7 @@ class ContentExtractor(object):
         return ''
 
     def get_meta_description(self):
-        """\
-        if the article has meta description set in the source, use that
-        """
-        return self.get_meta_content(self.article.doc, "meta[name=description]")
+        return self.get_from_known_meta_tags(KNOWN_DESCRIPTION_META_TAGS)
 
     def get_meta_keywords(self):
         """\
