@@ -325,9 +325,10 @@ class UpgradedImageIExtractor(ImageExtractor):
         meta = self.parser.getElementsByTag(node, tag='meta', attr='property', value='og:image')
         images = []
         for item in meta:
-            src = self.parser.getAttribute(item, attr='content')
-            if src:
-                images.append(self.get_image(item, src, extraction_type='opengraph'))
+            if self.parser.getAttribute(item, attr='property') == 'og:image':
+                src = self.parser.getAttribute(item, attr='content')
+                if src:
+                    images.append(self.get_image(item, src, extraction_type='opengraph'))
         return images
 
     def get_local_image(self, src):
