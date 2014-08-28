@@ -38,11 +38,13 @@ Setup
 
 ::
 
-    mkvirtualenv --no-site-packages goose
-    git clone https://github.com/grangier/python-goose.git
-    cd python-goose
-    pip install -r requirements.txt
-    python setup.py install
+    - Clone the repo and `cd` into it
+    - Create an environment `virtualenv --no-site-packages venv`
+    - Add `export API_KEY='ZZZZ'` to `venv/bin/activate`
+    - Activate virtual environment `source venv/bin/activate`
+    - Install dependencies `pip install -r requirements.txt`
+    - `python setup.py install`
+    - Start the development server `python api/application.py`
 
 Take it for a spin
 ------------------
