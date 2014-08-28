@@ -38,13 +38,20 @@ Setup
 
 ::
 
-    - Clone the repo and `cd` into it
-    - Create an environment `virtualenv --no-site-packages venv`
-    - Add `export API_KEY='ZZZZ'` to `venv/bin/activate`
-    - Activate virtual environment `source venv/bin/activate`
-    - Install dependencies `pip install -r requirements.txt`
-    - `python setup.py install`
-    - Start the development server `python api/application.py`
+    git clone git@github.com:cronycle/python-goose.git
+    cd python-goose
+    virtualenv --no-site-packages venv
+    # Add "export API_KEY='ZZZZ'" to "venv/bin/activate"
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python setup.py install
+
+Start the development server
+------------------------
+
+::
+
+    python api/application.py
 
 Take it for a spin
 ------------------
