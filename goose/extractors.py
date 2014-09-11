@@ -538,7 +538,8 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
-        allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em']
+        allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
+                        'strong', 'em', 'blockquote']
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
             if e_tag not in allowed_tags:
