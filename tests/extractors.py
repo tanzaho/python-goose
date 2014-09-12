@@ -414,6 +414,10 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+    def test_blockquotes(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 class TestPublishDate(TestExtractionBase):
 
     def test_publish_date(self):
