@@ -167,7 +167,6 @@ class UpgradedImageIExtractor(ImageExtractor):
         MIN_WIDTH = 50
         for image in images[:30]:
             src = self.parser.getAttribute(image, attr='src')
-            src = self.build_image_path(src)
             local_image = self.get_local_image(src)
             width = local_image.width
             height = local_image.height
@@ -197,7 +196,7 @@ class UpgradedImageIExtractor(ImageExtractor):
     def get_image(self, element, src, score=100, extraction_type="N/A"):
         # build the Image object
         image = Image()
-        image.src = self.build_image_path(src)
+        image.src = src
         image.extraction_type = extraction_type
         image.confidence_score = score
 
@@ -287,7 +286,6 @@ class UpgradedImageIExtractor(ImageExtractor):
             if cnt > 30:
                 return good_images
             src = self.parser.getAttribute(image, attr='src')
-            src = self.build_image_path(src)
             local_image = self.get_local_image(src)
             if local_image:
                 bytes = local_image.bytes
@@ -396,21 +394,6 @@ class UpgradedImageIExtractor(ImageExtractor):
                         images.append(self.get_image(element_image, src, score=90, extraction_type='known'))
 
         return images
-
-    def build_image_path(self, src):
-        """\
-        This method will take an image path and build
-        out the absolute path to that image
-        * using the initial url we crawled
-          so we can find a link to the image
-          if they use relative urls like ../myimage.jpg
-        """
-        o = urlparse(src)
-        # we have a full url
-        if o.hostname:
-            return o.geturl()
-        # we have a relative url
-        return urljoin(self.target_url, src)
 
     def load_customesite_mapping(self):
         # TODO

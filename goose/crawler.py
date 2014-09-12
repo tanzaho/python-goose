@@ -119,12 +119,12 @@ class Crawler(object):
             # video handeling
             self.video_extractor.get_videos()
 
+            # post cleanup
+            self.article.top_node = self.extractor.post_cleanup()
+
             # image handeling
             if self.config.enable_image_fetching:
                 self.get_images()
-
-            # post cleanup
-            self.article.top_node = self.extractor.post_cleanup()
 
             # clean_text
             self.article.content_html = self.formatter.content_html()

@@ -369,6 +369,14 @@ class ContentExtractor(object):
                 top_node.insert(0, p)
         return top_node
 
+    def build_image_paths(self, top_node):
+        for image in self.parser.getElementsByTag(top_node, tag='img'):
+            src = self.parser.getAttribute(image, attr='src')
+            parsed_url = urlparse(src)
+            if not parsed_url.hostname:
+                url = urljoin(self.article.final_url, src)
+                self.parser.setAttribute(image, 'src', url)
+
     def get_siblings_content(self, current_sibling, baselinescore_siblings_para):
         """\
         adds any siblings that may have a decent score to this node
@@ -538,6 +546,7 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
+        self.build_image_paths(node)
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
                         'strong', 'em', 'blockquote']
         for e in self.parser.getChildren(node):

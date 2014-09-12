@@ -134,7 +134,9 @@ class TestExtractionBase(BaseMockTests):
     def assert_content_html(self, article):
         expected_content_html = re.sub('\s', '', self.expected_content_html)
         actual_content_html = re.sub('\s', '', article.content_html).decode("utf8")
-        msg = u"HTML content is incorrect"
+        msg = u"HTML content is incorrect\n\n"
+        msg += "Expected: %s\n\n" % self.expected_content_html
+        msg += "Actual: %s" % article.content_html.decode("utf8")
         self.assertEqual(expected_content_html, actual_content_html, msg=msg)
 
     def extract(self, instance):
@@ -417,6 +419,14 @@ class TestExtractions(TestExtractionBase):
     def test_blockquotes(self):
         article = self.getArticle()
         self.assert_content_html(article)
+
+
+class TestRelativeImages(TestExtractionBase):
+
+    def test_relative_images(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 
 class TestPublishDate(TestExtractionBase):
 
