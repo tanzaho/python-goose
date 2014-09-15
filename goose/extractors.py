@@ -50,6 +50,9 @@ KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'property', 'value': 'rnews:description'},
     {'attribute': 'name', 'value': 'Description'}
 ]
+KNOWN_CONTENT_TAGS = [
+    {'attribute': 'itemprop', 'value': 'articleBody'}
+]
 
 
 class ContentExtractor(object):
@@ -251,6 +254,10 @@ class ContentExtractor(object):
         return set(tags)
 
     def calculate_best_node(self):
+        top_node_from_known_tags = self.get_top_node_from_known_tags()
+        if top_node_from_known_tags is not None:
+            return top_node_from_known_tags
+
         doc = self.article.doc
         top_node = None
         nodes_to_check = self.nodes_to_check(doc)
@@ -322,6 +329,14 @@ class ContentExtractor(object):
                 top_node = e
 
         return top_node
+
+    def get_top_node_from_known_tags(self):
+        for known_content_tag in KNOWN_CONTENT_TAGS:
+            content_tags = self.parser.getElementsByTag(self.article.doc,
+                                                        attr=known_content_tag['attribute'],
+                                                        value=known_content_tag['value'])
+        if len(content_tags):
+            return content_tags[0]
 
     def is_boostable(self, node):
         """\

@@ -420,6 +420,10 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+    def test_open_graph_content(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 
 class TestRelativeImages(TestExtractionBase):
 
