@@ -21,8 +21,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from HTMLParser import HTMLParser
-from goose.text import innerTrim
-from lxml.html import clean
+from cleaners import OutputFormatterCleaner
 
 
 class OutputFormatter(object):
@@ -46,22 +45,7 @@ class OutputFormatter(object):
     def content_html(self):
         self.top_node = self.article.top_node
         self.remove_negativescores_nodes()
-        return self.to_clean_html_string()
-
-    def to_clean_html_string(self):
-        html_string = self.parser.nodeToString(self.top_node)
-        clean_html_string = self.clean_attributes(html_string)
-        return innerTrim(clean_html_string)
-
-    def clean_attributes(self, html_string):
-        def safe_attrs():
-            attributes = set(clean.defs.safe_attrs)
-            for remove_attribute in ['class', 'id', 'tabindex']:
-                attributes.remove(remove_attribute)
-            return attributes
-
-        cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=safe_attrs())
-        return cleaner.clean_html(html_string)
+        return OutputFormatterCleaner().clean(self.top_node)
 
     def remove_negativescores_nodes(self):
         """\

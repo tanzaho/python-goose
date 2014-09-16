@@ -428,6 +428,10 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+    def test_embedded_media_items(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 
 class TestRelativeImages(TestExtractionBase):
 

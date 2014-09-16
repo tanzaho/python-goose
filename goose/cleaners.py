@@ -21,6 +21,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from goose.utils import ReplaceSequence
+from lxml.html import clean
+from urlparse import urlsplit
+from goose.text import innerTrim
+from configuration import Configuration
+
+class OutputFormatterCleaner(clean.Cleaner):
+    config = Configuration()
+    parser = config.get_parser()
+    safe_attrs_only = True
+    host_whitelist = ['www.youtube.com', 'player.vimeo.com', 'w.soundcloud.com']
+
+    def __init__(self, **kw):
+        super(OutputFormatterCleaner, **kw)
+        self.safe_attrs = self.__safe_attrs()
+
+    def allow_embedded_url(self, el, url):
+        if (self.whitelist_tags is not None
+            and el.tag not in self.whitelist_tags):
+            return False
+        scheme, netloc, path, query, fragment = urlsplit(url)
+        netloc = netloc.lower().split(':', 1)[0]
+        if scheme not in ('http', 'https', ''):
+            return False
+        if netloc in self.host_whitelist:
+            return True
+        return False
+
+    def clean(self, node):
+        html_string = self.parser.nodeToString(node, method='html')
+        clean_html_string = self.clean_html(html_string)
+        return innerTrim(clean_html_string)
+
+    def __safe_attrs(self):
+        attributes = set(clean.defs.safe_attrs)
+        for remove_attribute in ['class', 'id', 'tabindex']:
+            attributes.remove(remove_attribute)
+        return attributes
+
 
 
 class DocumentCleaner(object):

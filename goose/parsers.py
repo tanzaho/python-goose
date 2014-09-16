@@ -54,9 +54,10 @@ class Parser(object):
         self.doc = lxml.html.fromstring(html)
         return self.doc
 
+    # TODO: Switch to 'html' method
     @classmethod
-    def nodeToString(self, node):
-        return etree.tostring(node)
+    def nodeToString(self, node, method='xml'):
+        return etree.tostring(node, method=method)
 
     @classmethod
     def replaceTag(self, node, tag):
