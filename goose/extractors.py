@@ -387,6 +387,8 @@ class ContentExtractor(object):
     def build_image_paths(self, top_node):
         for image in self.parser.getElementsByTag(top_node, tag='img'):
             src = self.parser.getAttribute(image, attr='src')
+            if src is None:
+                return
             parsed_url = urlparse(src)
             if not parsed_url.hostname:
                 url = urljoin(self.article.final_url, src)
