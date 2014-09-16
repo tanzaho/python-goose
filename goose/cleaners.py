@@ -48,8 +48,11 @@ class DocumentCleaner(object):
         "|communitypromo|runaroundLeft|subscribe|vcard|articleheadings"
         "|date|^print$|popup|author-dropdown|tools|socialtools|byline"
         "|konafilter|KonaFilter|breadcrumbs|^fn$|wp-caption-text"
-        "|legende|ajoutVideo|timestamp|js_replies"
+        "|legende|ajoutVideo|timestamp|js_replies|printfriendly|share"
         )
+        # http://www.dailymail.co.uk/news/article-2742786/Complacent-Home-Office-loses-175-000-illegal-immigrants-Fresh-humiliation-officials-admit-went-missing-refused-permission-stay.html
+        self.remove_nodes_re += "|most-read-news-wrapper|most-watched-videos-wrapper"
+
         self.regexp_namespace = "http://exslt.org/regular-expressions"
         self.nauthy_ids_re = "//*[re:test(@id, '%s', 'i')]" % self.remove_nodes_re
         self.nauthy_classes_re = "//*[re:test(@class, '%s', 'i')]" % self.remove_nodes_re
