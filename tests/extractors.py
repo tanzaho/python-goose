@@ -435,6 +435,10 @@ class TestRelativeImages(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+    def test_images_with_no_path(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 
 class TestPublishDate(TestExtractionBase):
 
