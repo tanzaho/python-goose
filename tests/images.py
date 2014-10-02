@@ -181,6 +181,13 @@ class ImageUtilsTests(unittest.TestCase):
         for k, v in self.expected_results.items():
             self.assertEqual(getattr(image_detail, k), v)
 
+    def test_utils_get_image_dimensions_with_unknown_image_format(self):
+        not_an_image_path = 'tests/data/images/not_image.txt'
+        image_detail = ImageUtils.get_image_dimensions(None, not_an_image_path)
+
+        self.assertTrue(isinstance(image_detail, ImageDetails))
+        self.assertEqual(image_detail.mime_type, 'NA')
+
     def test_detail(self):
         image_detail = ImageUtils.get_image_dimensions(None, self.path)
 
