@@ -57,7 +57,10 @@ class Parser(object):
     # TODO: Switch to 'html' method
     @classmethod
     def nodeToString(self, node, method='xml'):
-        return etree.tostring(node, method=method)
+        try:
+            return etree.tostring(node, method=method)
+        except lxml.etree.SerialisationError: # Fix #40
+            return etree.tostring(node, method=method, encoding='utf-8')
 
     @classmethod
     def replaceTag(self, node, tag):
