@@ -384,15 +384,15 @@ class ContentExtractor(object):
                 top_node.insert(0, p)
         return top_node
 
-    def build_image_paths(self, top_node):
-        for image in self.parser.getElementsByTag(top_node, tag='img'):
-            src = self.parser.getAttribute(image, attr='src')
-            if src is None:
+    def build_tag_paths(self, top_node, tag, attribute):
+        for tag in self.parser.getElementsByTag(top_node, tag=tag):
+            path = self.parser.getAttribute(tag, attr=attribute)
+            if path is None:
                 return
-            parsed_url = urlparse(src)
+            parsed_url = urlparse(path)
             if not parsed_url.hostname:
-                url = urljoin(self.article.final_url, src)
-                self.parser.setAttribute(image, 'src', url)
+                url = urljoin(self.article.final_url, path)
+                self.parser.setAttribute(tag, attribute, url)
 
     def get_siblings_content(self, current_sibling, baselinescore_siblings_para):
         """\
@@ -563,7 +563,8 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
-        self.build_image_paths(node)
+        self.build_tag_paths(node, 'img', 'src')
+        self.build_tag_paths(node, 'a', 'href')
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
                         'strong', 'em', 'blockquote']
         for e in self.parser.getChildren(node):
