@@ -239,9 +239,8 @@ class Parser(object):
     def decode_html(self, html_string):
         converted = UnicodeDammit(html_string, isHTML=True)
         if not converted.unicode:
-            raise UnicodeDecodeError(
-                "Failed to detect encoding, tried [%s]",
-                ', '.join(converted.triedEncodings))
+            message = "Failed to detect encoding, tried [%s]" % ', '.join(converted.triedEncodings)
+            raise StandardError(message)
         return converted.unicode
 
 
