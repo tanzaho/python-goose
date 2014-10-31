@@ -26,6 +26,7 @@ from lxml import etree
 from copy import deepcopy
 from goose.text import innerTrim
 from goose.text import encodeValue
+from BeautifulSoup import UnicodeDammit
 
 
 class Parser(object):
@@ -50,7 +51,7 @@ class Parser(object):
 
     @classmethod
     def fromstring(self, html):
-        html = encodeValue(html)
+        html = self.decode_html(html)
         self.doc = lxml.html.fromstring(html)
         return self.doc
 
@@ -233,6 +234,15 @@ class Parser(object):
             e0 = deepcopy(e0)
             e0.tail = None
         return self.nodeToString(e0)
+
+    @classmethod
+    def decode_html(self, html_string):
+        converted = UnicodeDammit(html_string, isHTML=True)
+        if not converted.unicode:
+            raise UnicodeDecodeError(
+                "Failed to detect encoding, tried [%s]",
+                ', '.join(converted.triedEncodings))
+        return converted.unicode
 
 
 class ParserSoup(Parser):
