@@ -95,9 +95,9 @@ class Crawler(object):
         self.article.raw_html = raw_html
         self.article.doc = doc
         self.article.raw_doc = deepcopy(doc)
+        self.article.opengraph = self.extractor.extract_opengraph()
         self.article.publish_date = self.extractor.get_publish_date()
         # self.article.additional_data = config.get_additionaldata_extractor.extract(doc)
-        self.article.title = self.extractor.get_title()
         self.article.meta_lang = self.extractor.get_meta_lang()
         self.article.meta_favicon = self.extractor.get_favicon()
         self.article.meta_description = self.extractor.get_meta_description()
@@ -105,6 +105,7 @@ class Crawler(object):
         self.article.canonical_link = self.extractor.get_canonical_link()
         self.article.domain = self.extractor.get_domain()
         self.article.tags = self.extractor.extract_tags()
+        self.article.title = self.extractor.get_title()
 
         # before we do any calcs on the body itself let's clean up the document
         self.article.doc = self.cleaner.clean()

@@ -128,7 +128,7 @@ class TestExtractionBase(BaseMockTests):
                 continue
 
             # default assertion
-            msg = u"Error %s" % field
+            msg = u"Error %s \nexpected: %s\nresult: %s" % (field, expected_value, result_value)
             self.assertEqual(expected_value, result_value, msg=msg)
 
     def assert_content_html(self, article):
@@ -423,6 +423,11 @@ class TestExtractions(TestExtractionBase):
     def test_open_graph_content(self):
         article = self.getArticle()
         self.assert_content_html(article)
+
+    def test_title_opengraph(self):
+        article = self.getArticle()
+        fields = ['title']
+        self.runArticleAssertions(article=article, fields=fields)
 
     def test_clean_bad_tags(self):
         article = self.getArticle()
