@@ -26,10 +26,10 @@ import hashlib
 import unittest
 
 from base import MockResponse
-from extractors import TestExtractionBase
+from base import TestExtractionBase
 
 from goose.configuration import Configuration
-from goose.images.image import Image
+from goose.image import Image
 from goose.utils import FileHelper
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -40,7 +40,13 @@ class MockResponseImage(MockResponse):
     def image_content(self, req):
         md5_hash = hashlib.md5(req.get_full_url()).hexdigest()
         current_test = self.cls._get_current_testname()
-        path = os.path.join(CURRENT_PATH, "data", "images", current_test, md5_hash)
+        path = os.path.join(
+                os.path.dirname(CURRENT_PATH),
+                "data",
+                "extractors",
+                "images",
+                current_test,
+                md5_hash)
         path = os.path.abspath(path)
         f = open(path, 'rb')
         content = f.read()
@@ -49,7 +55,13 @@ class MockResponseImage(MockResponse):
 
     def html_content(self, req):
         current_test = self.cls._get_current_testname()
-        path = os.path.join(CURRENT_PATH, "data", "images", current_test, "%s.html" % current_test)
+        path = os.path.join(
+                os.path.dirname(CURRENT_PATH),
+                "data",
+                "extractors",
+                "images",
+                current_test,
+                "%s.html" % current_test)
         path = os.path.abspath(path)
         return FileHelper.loadResourceFile(path)
 
@@ -69,8 +81,14 @@ class ImageExtractionTests(TestExtractionBase):
         """\
 
         """
-        suite, module, cls, func = self.id().split('.')
-        path = os.path.join(CURRENT_PATH, "data", module, func, "%s.json" % func)
+        test, suite, module, cls, func = self.id().split('.')
+        path = os.path.join(
+                os.path.dirname(CURRENT_PATH),
+                "data",
+                suite,
+                module,
+                func,
+                "%s.json" % func)
         path = os.path.abspath(path)
         content = FileHelper.loadResourceFile(path)
         self.data = json.loads(content)

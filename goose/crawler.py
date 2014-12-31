@@ -25,11 +25,15 @@ import glob
 from copy import deepcopy
 from goose.article import Article
 from goose.utils import URLHelper, RawHelper
-from goose.extractors import StandardContentExtractor
+from goose.extractors.content import StandardContentExtractor
+from goose.extractors.videos import VideoExtractor
+from goose.extractors.title import TitleExtractor
+from goose.extractors.images import ImageExtractor
+from goose.extractors.opengraph import OpenGraphExtractor
+from goose.extractors.publishdate import PublishDateExtractor
+from goose.extractors.metas import MetasExtractor
 from goose.cleaners import StandardDocumentCleaner
 from goose.outputformatters import StandardOutputFormatter
-from goose.images.extractors import ImageExtractor
-from goose.videos.extractors import VideoExtractor
 from goose.network import HtmlFetcher
 
 
@@ -63,8 +67,20 @@ class Crawler(object):
         # init the output formatter
         self.formatter = self.get_formatter()
 
+        # metas extractor
+        self.metas_extractor = self.get_metas_extractor()
+
+        # publishdate extractor
+        self.publishdate_extractor = self.get_publishdate_extractor()
+
+        # opengraph extractor
+        self.opengraph_extractor = self.get_opengraph_extractor()
+
         # video extractor
         self.video_extractor = self.get_video_extractor()
+
+        # title extractor
+        self.title_extractor = self.get_title_extractor()
 
         # image extrator
         self.image_extractor = self.get_image_extractor()
@@ -95,17 +111,24 @@ class Crawler(object):
         self.article.raw_html = raw_html
         self.article.doc = doc
         self.article.raw_doc = deepcopy(doc)
-        self.article.opengraph = self.extractor.extract_opengraph()
-        self.article.publish_date = self.extractor.get_publish_date()
-        # self.article.additional_data = config.get_additionaldata_extractor.extract(doc)
-        self.article.meta_lang = self.extractor.get_meta_lang()
-        self.article.meta_favicon = self.extractor.get_favicon()
-        self.article.meta_description = self.extractor.get_meta_description()
-        self.article.meta_keywords = self.extractor.get_meta_keywords()
-        self.article.canonical_link = self.extractor.get_canonical_link()
-        self.article.domain = self.extractor.get_domain()
-        self.article.tags = self.extractor.extract_tags()
-        self.article.title = self.extractor.get_title()
+
+        # open graph
+        self.article.opengraph = self.opengraph_extractor.extract()
+
+        # publishdate
+        self.article.publish_date = self.publishdate_extractor.extract()
+
+        # meta
+        metas = self.metas_extractor.extract()
+        self.article.meta_lang = metas['lang']
+        self.article.meta_favicon = metas['favicon']
+        self.article.meta_description = metas['description']
+        self.article.meta_keywords = metas['keywords']
+        self.article.canonical_link = metas['canonical']
+        self.article.domain = metas['domain']
+
+        # title
+        self.article.title = self.title_extractor.extract()
 
         # before we do any calcs on the body itself let's clean up the document
         self.article.doc = self.cleaner.clean()
@@ -158,6 +181,18 @@ class Crawler(object):
             'result': self.htmlfetcher.result,
             })
         return html
+
+    def get_metas_extractor(self):
+        return MetasExtractor(self.config, self.article)
+
+    def get_publishdate_extractor(self):
+        return PublishDateExtractor(self.config, self.article)
+
+    def get_opengraph_extractor(self):
+        return OpenGraphExtractor(self.config, self.article)
+
+    def get_title_extractor(self):
+        return TitleExtractor(self.config, self.article)
 
     def get_image_extractor(self):
         return ImageExtractor(self.config, self.article)

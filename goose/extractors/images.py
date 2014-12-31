@@ -20,15 +20,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from goose.images.image import Image
+from goose.extractors import BaseExtractor
+from goose.image import Image
 import re
 
 
-class ImageExtractor(object):
+class ImageExtractor(BaseExtractor):
     def __init__(self, config, article):
-        self.article = article
-        self.config = config
-        self.parser = self.config.get_parser()
+        super(ImageExtractor, self).__init__(config, article)
 
     def get_images(self, top_node):
         return self.get_opengraph_tags() + self.get_content_images(top_node)

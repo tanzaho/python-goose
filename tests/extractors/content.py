@@ -20,158 +20,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import os
-import json
+from base import TestExtractionBase
 import re
 
 from base import BaseMockTests, MockResponse
 
-from goose import Goose
-from goose.utils import FileHelper
-from goose.configuration import Configuration
 from goose.text import StopWordsChinese
 from goose.text import StopWordsArabic
 from goose.text import StopWordsKorean
-
-
-CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
-
-
-class MockResponseExtractors(MockResponse):
-    def content(self, req):
-        current_test = self.cls._get_current_testname()
-        path = os.path.join(CURRENT_PATH, "data", "extractors", "%s.html" % current_test)
-        path = os.path.abspath(path)
-        content = FileHelper.loadResourceFile(path)
-        return content
-
-
-class TestExtractionBase(BaseMockTests):
-    """\
-    Extraction test case
-    """
-    callback = MockResponseExtractors
-
-    def getRawHtml(self):
-        return self.load_test_file('.html')
-
-    def loadData(self):
-        content = self.load_test_file('.json')
-        self.data = json.loads(content)
-
-    def load_content_html(self):
-        self.expected_content_html = self.load_test_file('.content.html')
-
-    def load_test_file(self, suffix):
-        suite, module, cls, func = self.id().split('.')
-        path = os.path.join(CURRENT_PATH, "data", module, "%s%s" % (func, suffix))
-        path = os.path.abspath(path)
-        try:
-            return FileHelper.loadResourceFile(path)
-        except IOError:
-            pass
-
-    def assert_cleaned_text(self, field, expected_value, result_value):
-        """\
-
-        """
-        # # TODO : handle verbose level in tests
-        # print "\n=======================::. ARTICLE REPORT %s .::======================\n" % self.id()
-        # print 'expected_value (%s) \n' % len(expected_value)
-        # print expected_value
-        # print "-------"
-        # print 'result_value (%s) \n' % len(result_value)
-        # print result_value
-
-        # cleaned_text is Null
-        msg = u"Resulting article text was NULL!"
-        self.assertNotEqual(result_value, None, msg=msg)
-
-        # cleaned_text length
-        msg = u"Article text was not as long as expected beginning!"
-        self.assertTrue(len(expected_value) <= len(result_value), msg=msg)
-
-        # clean_text value
-        result_value = result_value[0:len(expected_value)]
-        msg = u"The beginning of the article text was not as expected!"
-        self.assertEqual(expected_value, result_value, msg=msg)
-
-    def assert_tags(self, field, expected_value, result_value):
-        """\
-
-        """
-        # as we have a set in expected_value and a list in result_value
-        # make result_value a set
-        expected_value = set(expected_value)
-
-        # check if both have the same number of items
-        msg = (u"expected tags set and result tags set"
-                u"don't have the same number of items")
-        self.assertEqual(len(result_value), len(expected_value), msg=msg)
-
-        # check if each tag in result_value is in expected_value
-        for tag in result_value:
-            self.assertTrue(tag in expected_value)
-
-    def runArticleAssertions(self, article, fields):
-        """\
-
-        """
-        for field in fields:
-            expected_value = self.data['expected'][field]
-            result_value = getattr(article, field, None)
-
-            # custom assertion for a given field
-            assertion = 'assert_%s' % field
-            if hasattr(self, assertion):
-                getattr(self, assertion)(field, expected_value, result_value)
-                continue
-
-            # default assertion
-            msg = u"Error %s \nexpected: %s\nresult: %s" % (field, expected_value, result_value)
-            self.assertEqual(expected_value, result_value, msg=msg)
-
-    def assert_content_html(self, article):
-        expected_content_html = re.sub('\s', '', self.expected_content_html)
-        actual_content_html = re.sub('\s', '', article.content_html).decode("utf8")
-        msg = u"HTML content is incorrect\n\n"
-        msg += "Expected: %s\n\n" % self.expected_content_html
-        msg += "Actual: %s" % article.content_html.decode("utf8")
-        self.assertEqual(expected_content_html, actual_content_html, msg=msg)
-
-    def extract(self, instance):
-        article = instance.extract(url=self.data['url'])
-        return article
-
-    def getConfig(self):
-        config = Configuration()
-        config.enable_image_fetching = False
-        return config
-
-    def getArticle(self):
-        """\
-
-        """
-        # load test case data
-        self.loadData()
-        self.load_content_html()
-
-        # basic configuration
-        # no image fetching
-        config = self.getConfig()
-        self.parser = config.get_parser()
-
-        # target language
-        # needed for non english language most of the time
-        target_language = self.data.get('target_language')
-        if target_language:
-            config.target_language = target_language
-            config.use_meta_language = False
-
-        # run goose
-        g = Goose(config=config)
-        return self.extract(g)
-
 
 class TestExtractions(TestExtractionBase):
 
@@ -420,15 +276,6 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
-    def test_open_graph_content(self):
-        article = self.getArticle()
-        self.assert_content_html(article)
-
-    def test_title_opengraph(self):
-        article = self.getArticle()
-        fields = ['title']
-        self.runArticleAssertions(article=article, fields=fields)
-
     def test_clean_bad_tags(self):
         article = self.getArticle()
         self.assert_content_html(article)
@@ -464,20 +311,6 @@ class TestReplacingAttributes(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
-
-class TestPublishDate(TestExtractionBase):
-
-    def test_publish_date(self):
-        article = self.getArticle()
-        self.runArticleAssertions(article=article, fields=['publish_date'])
-
-    def test_publish_date_rnews(self):
-        article = self.getArticle()
-        self.runArticleAssertions(article=article, fields=['publish_date'])
-
-    def test_publish_date_article(self):
-        article = self.getArticle()
-        self.runArticleAssertions(article=article, fields=['publish_date'])
 
 class TestMetaDescription(TestExtractionBase):
 
@@ -545,34 +378,3 @@ class TestExtractionsRaw(TestExtractions):
 
     def test_bbc(self):
         return 'pending'
-
-
-class TestArticleTags(TestExtractionBase):
-
-    def test_tags_kexp(self):
-        article = self.getArticle()
-        fields = ['tags']
-        self.runArticleAssertions(article=article, fields=fields)
-
-    def test_tags_deadline(self):
-        article = self.getArticle()
-        fields = ['tags']
-        self.runArticleAssertions(article=article, fields=fields)
-
-    def test_tags_wnyc(self):
-        article = self.getArticle()
-        fields = ['tags']
-        self.runArticleAssertions(article=article, fields=fields)
-
-    def test_tags_cnet(self):
-        article = self.getArticle()
-        fields = ['tags']
-        self.runArticleAssertions(article=article, fields=fields)
-
-    def test_tags_abcau(self):
-        """
-        Test ABC Australia page with "topics" tags
-        """
-        article = self.getArticle()
-        fields = ['tags']
-        self.runArticleAssertions(article=article, fields=fields)
