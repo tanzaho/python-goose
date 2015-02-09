@@ -87,6 +87,7 @@ class DocumentCleaner(object):
         "|date|^print$|popup|author-dropdown|tools|socialtools|byline"
         "|konafilter|KonaFilter|breadcrumbs|^fn$|wp-caption-text"
         "|legende|ajoutVideo|timestamp|js_replies|printfriendly|share"
+        "|related-carousel|xwv-related-videos-container"
         )
         # http://www.dailymail.co.uk/news/article-2742786/Complacent-Home-Office-loses-175-000-illegal-immigrants-Fresh-humiliation-officials-admit-went-missing-refused-permission-stay.html
         self.remove_nodes_re += "|most-read-news-wrapper|most-watched-videos-wrapper"
