@@ -21,6 +21,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import urllib2
+import requests
 
 
 class HtmlFetcher(object):
@@ -43,18 +44,22 @@ class HtmlFetcher(object):
             url = url.encode('utf-8')
 
         # set request
-        self.request = urllib2.Request(
-                        url,
-                        headers=self.headers)
+        self.request = urllib2.Request(url, headers = self.headers)
         # do request
         try:
-            self.result = urllib2.urlopen(
-                            self.request,
-                            timeout=self.config.http_timeout)
+            self.result = urllib2.urlopen(self.request, timeout = self.config.http_timeout)
+        except urllib2.HTTPError as error:
+            if error.code == 303 \
+               and error.reason == "The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nSee Other":
+               # urllib2 can't handle "The New York Times", trying Requests lib
+               self.result = requests.get(url)
         except:
             self.result = None
 
         # read the result content
         if self.result is not None:
-            return self.result.read()
+            if type(self.result) == requests.models.Response:
+                return self.result.text
+            else:
+                return self.result.read()
         return None

@@ -4,4 +4,5 @@ cssselect
 jieba
 beautifulsoup
 nltk
+requests
 -r api/requirements.txt

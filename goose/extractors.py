@@ -51,7 +51,8 @@ KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'Description'}
 ]
 KNOWN_CONTENT_TAGS = [
-    {'attribute': 'itemprop', 'value': 'articleBody'}
+    {'attribute': 'itemprop', 'value': 'articleBody'},
+    {'attribute': 'id', 'value': 'story-body'},
 ]
 
 
