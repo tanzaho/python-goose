@@ -53,8 +53,8 @@ KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'Description'}
 ]
 KNOWN_CONTENT_TAGS = [
-    {'attribute': 'itemprop', 'value': 'articleBody'},
     {'attribute': 'id', 'value': 'story-body'},
+    {'attribute': 'itemprop', 'value': 'articleBody'},
 ]
 
 
@@ -338,8 +338,10 @@ class ContentExtractor(object):
             content_tags = self.parser.getElementsByTag(self.article.doc,
                                                         attr=known_content_tag['attribute'],
                                                         value=known_content_tag['value'])
-        if len(content_tags):
-            return content_tags[0]
+            if len(content_tags):
+                return content_tags[0]
+
+        return None
 
     def is_boostable(self, node):
         """\
