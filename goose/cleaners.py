@@ -30,7 +30,8 @@ class OutputFormatterCleaner(clean.Cleaner):
     config = Configuration()
     parser = config.get_parser()
     safe_attrs_only = True
-    host_whitelist = ['www.youtube.com', 'player.vimeo.com', 'w.soundcloud.com']
+    host_whitelist = ['www.youtube.com', 'player.vimeo.com', 'w.soundcloud.com',
+                      'embed.spotify.com']
 
     def __init__(self, **kw):
         super(OutputFormatterCleaner, **kw)
@@ -88,6 +89,7 @@ class DocumentCleaner(object):
         "|konafilter|KonaFilter|breadcrumbs|^fn$|wp-caption-text"
         "|legende|ajoutVideo|timestamp|js_replies|printfriendly|share"
         "|related-carousel|xwv-related-videos-container"
+        "|visually-hidden|robots-nocontent"
         )
         # http://www.dailymail.co.uk/news/article-2742786/Complacent-Home-Office-loses-175-000-illegal-immigrants-Fresh-humiliation-officials-admit-went-missing-refused-permission-stay.html
         self.remove_nodes_re += "|most-read-news-wrapper|most-watched-videos-wrapper"

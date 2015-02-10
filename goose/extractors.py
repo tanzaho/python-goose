@@ -43,6 +43,8 @@ KNOWN_PUBLISH_DATE_META_TAGS = [
     {'attribute': 'property', 'value': 'rnews:datePublished'},
     {'attribute': 'property', 'value': 'article:published_time'},
     {'attribute': 'name', 'value': 'OriginalPublicationDate'},
+    {'attribute': 'itemprop', 'value': 'datePublished'},
+    {'attribute': 'property', 'value': 'article:published'},
 ]
 KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'description'},
