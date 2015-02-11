@@ -443,6 +443,12 @@ class TestRelativePaths(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
+class TestReplacingAttributes(TestExtractionBase):
+
+    def test_replacing_attributes(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
 
 class TestPublishDate(TestExtractionBase):
 

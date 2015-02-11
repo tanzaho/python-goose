@@ -43,6 +43,8 @@ KNOWN_PUBLISH_DATE_META_TAGS = [
     {'attribute': 'property', 'value': 'rnews:datePublished'},
     {'attribute': 'property', 'value': 'article:published_time'},
     {'attribute': 'name', 'value': 'OriginalPublicationDate'},
+    {'attribute': 'itemprop', 'value': 'datePublished'},
+    {'attribute': 'property', 'value': 'article:published'},
 ]
 KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'description'},
@@ -51,7 +53,8 @@ KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'Description'}
 ]
 KNOWN_CONTENT_TAGS = [
-    {'attribute': 'itemprop', 'value': 'articleBody'}
+    {'attribute': 'id', 'value': 'story-body'},
+    {'attribute': 'itemprop', 'value': 'articleBody'},
 ]
 
 
@@ -335,8 +338,16 @@ class ContentExtractor(object):
             content_tags = self.parser.getElementsByTag(self.article.doc,
                                                         attr=known_content_tag['attribute'],
                                                         value=known_content_tag['value'])
-        if len(content_tags):
-            return content_tags[0]
+            if len(content_tags):
+                if len(content_tags) > 1:
+                    root = self.parser.createElement('div')
+                    for content_tag in content_tags:
+                        self.parser.appendChild(root, content_tag)
+                    return root
+                else:
+                    return content_tags[0]
+
+        return None
 
     def is_boostable(self, node):
         """\
@@ -383,6 +394,12 @@ class ContentExtractor(object):
             for p in ps:
                 top_node.insert(0, p)
         return top_node
+
+    def replace_attributes(self, top_node, tag_name, old_attribute_name, new_attribute_name):
+        css_path = tag_name + '[' + new_attribute_name + ']' # e.g. 'img[data-src]'
+        for tag in self.parser.css_select(top_node, css_path):
+            new_attribute_content = self.parser.getAttribute(tag, attr = new_attribute_name)
+            self.parser.setAttribute(tag, old_attribute_name, new_attribute_content)
 
     def build_tag_paths(self, top_node, tag, attribute):
         for tag in self.parser.getElementsByTag(top_node, tag=tag):
@@ -563,6 +580,13 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
+
+        # fixing nytimes images
+        self.replace_attributes(node,
+                                tag_name = 'img',
+                                old_attribute_name = 'src',
+                                new_attribute_name = 'data-src')
+
         self.build_tag_paths(node, 'img', 'src')
         self.build_tag_paths(node, 'a', 'href')
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
