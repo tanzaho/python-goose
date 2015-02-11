@@ -339,7 +339,13 @@ class ContentExtractor(object):
                                                         attr=known_content_tag['attribute'],
                                                         value=known_content_tag['value'])
             if len(content_tags):
-                return content_tags[0]
+                if len(content_tags) > 1:
+                    root = self.parser.createElement('div')
+                    for content_tag in content_tags:
+                        self.parser.appendChild(root, content_tag)
+                    return root
+                else:
+                    return content_tags[0]
 
         return None
 
