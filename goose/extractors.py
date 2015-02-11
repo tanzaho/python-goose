@@ -395,6 +395,12 @@ class ContentExtractor(object):
                 top_node.insert(0, p)
         return top_node
 
+    def replace_attributes(self, top_node, tag_name, old_attribute_name, new_attribute_name):
+        css_path = tag_name + '[' + new_attribute_name + ']' # e.g. 'img[data-src]'
+        for tag in self.parser.css_select(top_node, css_path):
+            new_attribute_content = self.parser.getAttribute(tag, attr = new_attribute_name)
+            self.parser.setAttribute(tag, old_attribute_name, new_attribute_content)
+
     def build_tag_paths(self, top_node, tag, attribute):
         for tag in self.parser.getElementsByTag(top_node, tag=tag):
             path = self.parser.getAttribute(tag, attr=attribute)
@@ -574,6 +580,13 @@ class ContentExtractor(object):
         """
         targetNode = self.article.top_node
         node = self.add_siblings(targetNode)
+
+        # fixing nytimes images
+        self.replace_attributes(node,
+                                tag_name = 'img',
+                                old_attribute_name = 'src',
+                                new_attribute_name = 'data-src')
+
         self.build_tag_paths(node, 'img', 'src')
         self.build_tag_paths(node, 'a', 'href')
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
