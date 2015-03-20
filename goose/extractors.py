@@ -401,11 +401,11 @@ class ContentExtractor(object):
             new_attribute_content = self.parser.getAttribute(tag, attr = new_attribute_name)
             self.parser.setAttribute(tag, old_attribute_name, new_attribute_content)
 
-    def build_tag_paths(self, top_node, tag, attribute):
-        for tag in self.parser.getElementsByTag(top_node, tag=tag):
+    def build_tag_paths(self, top_node, tag_name, attribute):
+        for tag in self.parser.getElementsByTag(top_node, tag=tag_name):
             path = self.parser.getAttribute(tag, attr=attribute)
             if path is None:
-                return
+                continue
             parsed_url = urlparse(path)
             if not parsed_url.hostname:
                 url = urljoin(self.article.final_url, path)
