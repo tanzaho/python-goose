@@ -96,6 +96,19 @@ class DocumentCleaner(object):
         # nytimes remove nodes
         self.remove_nodes_re += "|visually-hidden|robots-nocontent"
 
+        # *.wikipedia.org
+        self.remove_nodes_re += "|mw-editsection|^cite_ref|noprint|References|siteSub"
+        self.remove_nodes_re += "|collapsed|mw-headline-anchor|filetoc|noviewer"
+
+        # *.wiktionary.org
+        self.remove_nodes_re += "|ib-brac"
+
+        # *.wikibooks.org
+        self.remove_nodes_re += "|status-icon"
+
+        # www.wikidata.org
+        self.remove_nodes_re += "|wikibase-edittoolbar-container"
+
         # http://www.dailymail.co.uk/news/article-2742786/Complacent-Home-Office-loses-175-000-illegal-immigrants-Fresh-humiliation-officials-admit-went-missing-refused-permission-stay.html
         self.remove_nodes_re += "|most-read-news-wrapper|most-watched-videos-wrapper"
 
