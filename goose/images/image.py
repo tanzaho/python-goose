@@ -36,10 +36,10 @@ class Image(object):
         self.confidence_score = float(0.0)
 
         # Height of the image in pixels
-        self.height = 0
+        self.height = None
 
         # width of the image in pixels
-        self.width = 0
+        self.width = None
 
         # what kind of image extraction was used for this?
         # bestGuess, linkTag, openGraph tags?

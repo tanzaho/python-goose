@@ -44,7 +44,45 @@ class DepthTraversal(object):
 
 
 class ImageExtractor(object):
-    pass
+    def __init__(self, config, article):
+        self.article = article
+        self.config = config
+        self.parser = self.config.get_parser()
+
+    def get_images(self, top_node):
+        return self.get_opengraph_tags() + self.get_content_images(top_node)
+
+    def get_opengraph_tags(self):
+        node = self.article.raw_doc
+        meta = self.parser.getElementsByTag(node, tag='meta', attr='property', value='og:image')
+        images = []
+        for item in meta:
+            if self.parser.getAttribute(item, attr='property') == 'og:image':
+                src = self.parser.getAttribute(item, attr='content')
+                if src:
+                    images.append(self.get_image(item, src, extraction_type='opengraph'))
+        return images
+
+    def get_content_images(self, top_node):
+        images = []
+        image_nodes = self.parser.getElementsByTag(top_node, tag='img')
+        for image_node in image_nodes:
+            image = self.from_image_node_to_image(image_node)
+            images.append(image)
+
+        return images
+
+    def from_image_node_to_image(self, image_node):
+        image = Image()
+        image.src = self.parser.getAttribute(image_node, 'src')
+        width_attribute = self.parser.getAttribute(image_node, 'width')
+        if width_attribute:
+            image.width = int(width_attribute)
+        height_attribute = self.parser.getAttribute(image_node, 'height')
+        if height_attribute:
+            image.height = int(height_attribute)
+
+        return image
 
 
 class UpgradedImageIExtractor(ImageExtractor):
@@ -80,7 +118,7 @@ class UpgradedImageIExtractor(ImageExtractor):
             "|mediaplex.com|adsatt|view.atdmt"
         )
 
-    def get_images(self, doc, top_node):
+    def get_images(self, top_node):
         known_images = self.check_known_elements()
         if len(known_images) > 0:
             return known_images
@@ -88,11 +126,6 @@ class UpgradedImageIExtractor(ImageExtractor):
         large_images = self.check_large_images(top_node, 0, 0)
         meta_tag_images = self.check_meta_tag()
         return large_images + meta_tag_images
-
-    def check_meta_tag(self):
-        link_tag_images = self.check_link_tag()
-        open_graph_images = self.check_opengraph_tag()
-        return link_tag_images + open_graph_images
 
     def check_large_images(self, node, parent_depth_level, sibling_depth_level):
         """\
@@ -298,35 +331,6 @@ class UpgradedImageIExtractor(ImageExtractor):
 
     def get_node(self, node):
         return node if node else None
-
-    def check_link_tag(self):
-        """\
-        checks to see if we were able to
-        find open link_src on this page
-        """
-        node = self.article.raw_doc
-        meta = self.parser.getElementsByTag(node, tag='link', attr='rel', value='image_src')
-        images = []
-        for item in meta:
-            src = self.parser.getAttribute(item, attr='href')
-            if src:
-                images.append(self.get_image(item, src, extraction_type='linktag'))
-        return images
-
-    def check_opengraph_tag(self):
-        """\
-        checks to see if we were able to
-        find open graph tags on this page
-        """
-        node = self.article.raw_doc
-        meta = self.parser.getElementsByTag(node, tag='meta', attr='property', value='og:image')
-        images = []
-        for item in meta:
-            if self.parser.getAttribute(item, attr='property') == 'og:image':
-                src = self.parser.getAttribute(item, attr='content')
-                if src:
-                    images.append(self.get_image(item, src, extraction_type='opengraph'))
-        return images
 
     def get_local_image(self, src):
         """\
