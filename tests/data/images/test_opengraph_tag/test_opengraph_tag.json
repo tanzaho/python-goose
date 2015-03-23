@@ -2,12 +2,10 @@
     "url": "http://go.com/bla/bla",
     "expected": {
         "images": [{
-            "extraction_type": "opengraph",
             "src": "http://go.com/images/465395/",
-            "confidence_score": 100,
             "bytes": 0,
-            "height": 0,
-            "width": 0,
+            "height": null,
+            "width": null,
             "parent_node": null
         }]
     }
