@@ -58,6 +58,10 @@ KNOWN_CONTENT_TAGS = [
     {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
 ]
 
+KNOWN_HOST_CONTENT_TAGS = {
+    'www.ebay.com': ['#vi-desc-maincntr']
+}
+
 
 class ContentExtractor(object):
 
@@ -258,6 +262,10 @@ class ContentExtractor(object):
         return set(tags)
 
     def calculate_best_node(self):
+        top_host_node_from_known_tags = self.get_top_host_node_from_known_tags()
+        if top_host_node_from_known_tags is not None:
+            return top_host_node_from_known_tags
+
         top_node_from_known_tags = self.get_top_node_from_known_tags()
         if top_node_from_known_tags is not None:
             return top_node_from_known_tags
@@ -333,6 +341,15 @@ class ContentExtractor(object):
                 top_node = e
 
         return top_node
+
+    def get_top_host_node_from_known_tags(self):
+        if self.article.domain in KNOWN_HOST_CONTENT_TAGS:
+            selectors = KNOWN_HOST_CONTENT_TAGS[self.article.domain]
+            content_tags = []
+            for selector in selectors:
+                content_tags += self.parser.css_select(self.article.doc, selector)
+
+            return self.parser.combine_nodes(content_tags)
 
     def get_top_node_from_known_tags(self):
         for known_content_tag in KNOWN_CONTENT_TAGS:
