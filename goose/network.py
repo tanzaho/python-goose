@@ -50,11 +50,9 @@ class HtmlFetcher(object):
             self.result = urllib2.urlopen(self.request, timeout = self.config.http_timeout)
             return self.result.read()
         except urllib2.HTTPError as error:
-            if error.code == 303 \
-               and error.reason == "The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nSee Other":
-               # urllib2 can't handle "The New York Times", trying Requests lib
-               self.result = requests.get(url)
-               return self.result.text
+           # urllib2 can't handle "The New York Times", trying Requests lib
+           self.result = requests.get(url)
+           return self.result.text
         except:
             self.result = None
 
