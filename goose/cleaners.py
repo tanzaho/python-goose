@@ -25,9 +25,10 @@ from lxml.html import clean
 from urlparse import urlsplit
 from goose.text import innerTrim
 from configuration import Configuration
+from host_utils import HostUtils
 
 KNOWN_HOST_REMOVE_SELECTORS = {
-    'www.ebay.com': ['#desc_div', '[class *= "drpdwn"]']
+    'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
@@ -221,10 +222,9 @@ class DocumentCleaner(object):
         return doc
 
     def remove_host_specific_nodes(self, doc):
-        remove_selectors = KNOWN_HOST_REMOVE_SELECTORS[self.article.domain]
-        for selector in remove_selectors:
-          nodes = self.parser.css_select(doc, selector)
-          for node in nodes:
+        remove_selectors = HostUtils.host_selectors(KNOWN_HOST_REMOVE_SELECTORS, self.article.domain)
+        nodes = self.parser.css_select(doc, remove_selectors)
+        for node in nodes:
             self.parser.remove(node)
 
         return doc

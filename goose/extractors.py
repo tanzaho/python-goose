@@ -26,6 +26,7 @@ from urlparse import urlparse, urljoin
 from goose.utils import StringSplitter
 from goose.utils import StringReplacement
 from goose.utils import ReplaceSequence
+from host_utils import HostUtils
 
 MOTLEY_REPLACEMENT = StringReplacement("&#65533;", "")
 ESCAPED_FRAGMENT_REPLACEMENT = StringReplacement(u"#!", u"?_escaped_fragment_=")
@@ -59,7 +60,7 @@ KNOWN_CONTENT_TAGS = [
 ]
 
 KNOWN_HOST_CONTENT_TAGS = {
-    'www.ebay.com': ['#vi-desc-maincntr']
+    'www.ebay.com': '.vi-price, noscript [itemprop="image"], #vi-desc-maincntr, #Results, [itemprop="articleBody"]',
 }
 
 
@@ -344,10 +345,8 @@ class ContentExtractor(object):
 
     def get_top_host_node_from_known_tags(self):
         if self.article.domain in KNOWN_HOST_CONTENT_TAGS:
-            selectors = KNOWN_HOST_CONTENT_TAGS[self.article.domain]
-            content_tags = []
-            for selector in selectors:
-                content_tags += self.parser.css_select(self.article.doc, selector)
+            selectors = HostUtils.host_selectors(KNOWN_HOST_CONTENT_TAGS, self.article.domain)
+            content_tags = self.parser.css_select(self.article.doc, selectors)
 
             return self.parser.combine_nodes(content_tags)
 
@@ -604,6 +603,12 @@ class ContentExtractor(object):
                                 tag_name = 'img',
                                 old_attribute_name = 'src',
                                 new_attribute_name = 'data-src')
+
+        # fixing ebay images
+        self.replace_attributes(node,
+                                tag_name = 'img',
+                                old_attribute_name = 'src',
+                                new_attribute_name = 'imgurl')
 
         self.build_tag_paths(node, 'img', 'src')
         self.build_tag_paths(node, 'a', 'href')

@@ -247,9 +247,9 @@ class Parser(object):
     def combine_nodes(self, nodes):
         if len(nodes):
             if len(nodes) > 1:
-                root = self.parser.createElement('div')
+                root = self.createElement('div')
                 for node in nodes:
-                    self.parser.appendChild(root, node)
+                    self.appendChild(root, node)
                 return root
             else:
                 return nodes[0]
