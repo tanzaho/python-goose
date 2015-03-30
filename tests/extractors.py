@@ -433,6 +433,12 @@ class TestExtractions(TestExtractionBase):
         self.assert_content_html(article)
 
 
+class TestKnownHosts(TestExtractionBase):
+    def test_known_host_selectors(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
+
 class TestRelativePaths(TestExtractionBase):
 
     def test_relative_paths(self):

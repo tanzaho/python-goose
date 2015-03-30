@@ -355,16 +355,9 @@ class ContentExtractor(object):
             content_tags = self.parser.getElementsByTag(self.article.doc,
                                                         attr=known_content_tag['attribute'],
                                                         value=known_content_tag['value'])
-            if len(content_tags):
-                if len(content_tags) > 1:
-                    root = self.parser.createElement('div')
-                    for content_tag in content_tags:
-                        self.parser.appendChild(root, content_tag)
-                    return root
-                else:
-                    return content_tags[0]
-
-        return None
+            content_tags = self.parser.combine_nodes(content_tags)
+            if content_tags:
+                return content_tags
 
     def is_boostable(self, node):
         """\
@@ -614,6 +607,10 @@ class ContentExtractor(object):
         self.build_tag_paths(node, 'a', 'href')
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
                         'strong', 'em', 'blockquote']
+
+        if self.article.domain in KNOWN_HOST_CONTENT_TAGS:
+            return node
+
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
             if e_tag not in allowed_tags:

@@ -1,0 +1,6 @@
+{
+    "url": "http://www.ebay.com/example",
+    "expected": {
+        "domain": "www.ebay.com"
+    }
+}
