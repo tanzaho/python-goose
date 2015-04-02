@@ -136,3 +136,8 @@ class ImageExtractionTests(TestExtractionBase):
     def test_opengraph_tag(self):
         article = self.getArticle()
         self._test_known_images_css(article)
+
+    def test_image_sizes(self):
+        article = self.getArticle()
+        fields = ['images']
+        self.runArticleAssertions(article=article, fields=fields)

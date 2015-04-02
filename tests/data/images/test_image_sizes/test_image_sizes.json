@@ -1,0 +1,14 @@
+{
+    "url": "http://example.com/example",
+    "expected": {
+        "images": [{
+            "src": "http://example.com/example.png",
+            "width": 300,
+            "height": 200
+        }, {
+            "src": "http://example.com/example2.png",
+            "width": 600,
+            "height": 400
+        }]
+    }
+}
