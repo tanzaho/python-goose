@@ -26,6 +26,7 @@ from urlparse import urlparse, urljoin
 from goose.utils import StringSplitter
 from goose.utils import StringReplacement
 from goose.utils import ReplaceSequence
+from host_utils import HostUtils
 
 MOTLEY_REPLACEMENT = StringReplacement("&#65533;", "")
 ESCAPED_FRAGMENT_REPLACEMENT = StringReplacement(u"#!", u"?_escaped_fragment_=")
@@ -57,6 +58,10 @@ KNOWN_CONTENT_TAGS = [
     {'attribute': 'itemprop', 'value': 'articleBody'},
     {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
 ]
+
+KNOWN_HOST_CONTENT_TAGS = {
+    'www.ebay.com': '.vi-price, noscript [itemprop="image"], #vi-desc-maincntr, #Results, [itemprop="articleBody"]',
+}
 
 
 class ContentExtractor(object):
@@ -258,6 +263,10 @@ class ContentExtractor(object):
         return set(tags)
 
     def calculate_best_node(self):
+        top_host_node_from_known_tags = self.get_top_host_node_from_known_tags()
+        if top_host_node_from_known_tags is not None:
+            return top_host_node_from_known_tags
+
         top_node_from_known_tags = self.get_top_node_from_known_tags()
         if top_node_from_known_tags is not None:
             return top_node_from_known_tags
@@ -334,21 +343,21 @@ class ContentExtractor(object):
 
         return top_node
 
+    def get_top_host_node_from_known_tags(self):
+        if self.article.domain in KNOWN_HOST_CONTENT_TAGS:
+            selectors = HostUtils.host_selectors(KNOWN_HOST_CONTENT_TAGS, self.article.domain)
+            content_tags = self.parser.css_select(self.article.doc, selectors)
+
+            return self.parser.combine_nodes(content_tags)
+
     def get_top_node_from_known_tags(self):
         for known_content_tag in KNOWN_CONTENT_TAGS:
             content_tags = self.parser.getElementsByTag(self.article.doc,
                                                         attr=known_content_tag['attribute'],
                                                         value=known_content_tag['value'])
-            if len(content_tags):
-                if len(content_tags) > 1:
-                    root = self.parser.createElement('div')
-                    for content_tag in content_tags:
-                        self.parser.appendChild(root, content_tag)
-                    return root
-                else:
-                    return content_tags[0]
-
-        return None
+            content_tags = self.parser.combine_nodes(content_tags)
+            if content_tags:
+                return content_tags
 
     def is_boostable(self, node):
         """\
@@ -588,10 +597,20 @@ class ContentExtractor(object):
                                 old_attribute_name = 'src',
                                 new_attribute_name = 'data-src')
 
+        # fixing ebay images
+        self.replace_attributes(node,
+                                tag_name = 'img',
+                                old_attribute_name = 'src',
+                                new_attribute_name = 'imgurl')
+
         self.build_tag_paths(node, 'img', 'src')
         self.build_tag_paths(node, 'a', 'href')
         allowed_tags = ['p', 'img', 'ul', 'ol', 'h2', 'h3', 'h4', 'h5', 'h6',
                         'strong', 'em', 'blockquote']
+
+        if self.article.domain in KNOWN_HOST_CONTENT_TAGS:
+            return node
+
         for e in self.parser.getChildren(node):
             e_tag = self.parser.getTag(e)
             if e_tag not in allowed_tags:

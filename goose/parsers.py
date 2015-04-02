@@ -243,6 +243,17 @@ class Parser(object):
             raise StandardError(message)
         return converted.unicode
 
+    @classmethod
+    def combine_nodes(self, nodes):
+        if len(nodes):
+            if len(nodes) > 1:
+                root = self.createElement('div')
+                for node in nodes:
+                    self.appendChild(root, node)
+                return root
+            else:
+                return nodes[0]
+
 
 class ParserSoup(Parser):
 

@@ -25,6 +25,11 @@ from lxml.html import clean
 from urlparse import urlsplit
 from goose.text import innerTrim
 from configuration import Configuration
+from host_utils import HostUtils
+
+KNOWN_HOST_REMOVE_SELECTORS = {
+    'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
+}
 
 class OutputFormatterCleaner(clean.Cleaner):
     config = Configuration()
@@ -59,7 +64,6 @@ class OutputFormatterCleaner(clean.Cleaner):
         for remove_attribute in ['class', 'id', 'tabindex']:
             attributes.remove(remove_attribute)
         return attributes
-
 
 
 class DocumentCleaner(object):
@@ -129,10 +133,12 @@ class DocumentCleaner(object):
 
     def clean(self):
         doc_to_clean = self.article.doc
+        doc_to_clean = self.remove_scripts_styles(doc_to_clean)
+        if self.article.domain in KNOWN_HOST_REMOVE_SELECTORS:
+            return self.remove_host_specific_nodes(doc_to_clean)
         doc_to_clean = self.clean_body_classes(doc_to_clean)
         doc_to_clean = self.clean_article_tags(doc_to_clean)
         doc_to_clean = self.remove_drop_caps(doc_to_clean)
-        doc_to_clean = self.remove_scripts_styles(doc_to_clean)
         doc_to_clean = self.clean_bad_tags(doc_to_clean)
         doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.google_re)
         doc_to_clean = self.remove_nodes_regex(doc_to_clean, self.entries_re)
@@ -212,6 +218,14 @@ class DocumentCleaner(object):
                         parent.insert(parent_index, image)
                 else:
                     self.parser.remove(node)
+
+        return doc
+
+    def remove_host_specific_nodes(self, doc):
+        remove_selectors = HostUtils.host_selectors(KNOWN_HOST_REMOVE_SELECTORS, self.article.domain)
+        nodes = self.parser.css_select(doc, remove_selectors)
+        for node in nodes:
+            self.parser.remove(node)
 
         return doc
 
