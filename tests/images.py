@@ -30,8 +30,6 @@ from extractors import TestExtractionBase
 
 from goose.configuration import Configuration
 from goose.images.image import Image
-from goose.images.image import ImageDetails
-from goose.images.utils import ImageUtils
 from goose.utils import FileHelper
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -127,29 +125,8 @@ class ImageExtractionTests(TestExtractionBase):
 
         # we dont' have an image in article.top_node
         # check if the correct image was retrieved
-        # using the known-image-css.txt
         fields = ['images']
         self.runArticleAssertions(article=article, fields=fields)
-
-    def test_known_images_name_parent(self):
-        article = self.getArticle()
-        self._test_known_images_css(article)
-
-    def test_known_images_css_parent_class(self):
-        article = self.getArticle()
-        self._test_known_images_css(article)
-
-    def test_known_images_css_parent_id(self):
-        article = self.getArticle()
-        self._test_known_images_css(article)
-
-    def test_known_images_css_class(self):
-        article = self.getArticle()
-        self._test_known_images_css(article)
-
-    def test_known_images_css_id(self):
-        article = self.getArticle()
-        self._test_known_images_css(article)
 
     def test_known_images_empty_src(self):
         'Tests that img tags for known image sources with empty src attributes are skipped.'
@@ -159,61 +136,3 @@ class ImageExtractionTests(TestExtractionBase):
     def test_opengraph_tag(self):
         article = self.getArticle()
         self._test_known_images_css(article)
-
-
-class ImageUtilsTests(unittest.TestCase):
-
-    def setUp(self):
-        self.path = 'tests/data/images/test_basic_images/50850547cc7310bc53e30e802c6318f1'
-        self.expected_results = {
-            'width': 476,
-            'height': 317,
-            'mime_type': 'JPEG'
-        }
-
-    def test_utils_get_image_dimensions(self):
-        image_detail = ImageUtils.get_image_dimensions(None, self.path)
-
-        # test if we have an ImageDetails instance
-        self.assertTrue(isinstance(image_detail, ImageDetails))
-
-        # test image_detail attribute
-        for k, v in self.expected_results.items():
-            self.assertEqual(getattr(image_detail, k), v)
-
-    def test_utils_get_image_dimensions_with_unknown_image_format(self):
-        not_an_image_path = 'tests/data/images/not_image.txt'
-        image_detail = ImageUtils.get_image_dimensions(None, not_an_image_path)
-
-        self.assertTrue(isinstance(image_detail, ImageDetails))
-        self.assertEqual(image_detail.mime_type, 'NA')
-
-    def test_detail(self):
-        image_detail = ImageUtils.get_image_dimensions(None, self.path)
-
-        # test if we have an ImageDetails instance
-        self.assertTrue(isinstance(image_detail, ImageDetails))
-
-        # test image_detail attribute
-        for k, v in self.expected_results.items():
-            self.assertEqual(getattr(image_detail, k), v)
-
-        # test image_detail get_ methode
-        for k, v in self.expected_results.items():
-            attr = 'get_%s' % k
-            self.assertEqual(getattr(image_detail, attr)(), v)
-
-        # test image_detail set_ methode
-        expected_results = {
-            'width': 10,
-            'height': 10,
-            'mime_type': 'PNG'
-        }
-
-        for k, v in expected_results.items():
-            attr = 'set_%s' % k
-            getattr(image_detail, attr)(v)
-
-        for k, v in expected_results.items():
-            attr = 'get_%s' % k
-            self.assertEqual(getattr(image_detail, attr)(), v)

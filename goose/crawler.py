@@ -28,7 +28,7 @@ from goose.utils import URLHelper, RawHelper
 from goose.extractors import StandardContentExtractor
 from goose.cleaners import StandardDocumentCleaner
 from goose.outputformatters import StandardOutputFormatter
-from goose.images.extractors import UpgradedImageIExtractor
+from goose.images.extractors import ImageExtractor
 from goose.videos.extractors import VideoExtractor
 from goose.network import HtmlFetcher
 
@@ -142,8 +142,7 @@ class Crawler(object):
 
     def get_images(self):
         doc = self.article.raw_doc
-        top_node = self.article.top_node
-        self.article.images = self.image_extractor.get_images(doc, top_node)
+        self.article.images = self.image_extractor.get_images(self.article.top_node)
 
     def get_html(self, crawl_candidate, parsing_candidate):
         # we got a raw_tml
@@ -160,7 +159,7 @@ class Crawler(object):
         return html
 
     def get_image_extractor(self):
-        return UpgradedImageIExtractor(self.config, self.article)
+        return ImageExtractor(self.config, self.article)
 
     def get_video_extractor(self):
         return VideoExtractor(self.config, self.article)
