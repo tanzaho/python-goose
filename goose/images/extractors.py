@@ -69,5 +69,7 @@ class ImageExtractor(object):
         if size is None:
             return None
         digits_only = re.sub("\D", "", size)
+        if len(digits_only) is 0:
+            return None
 
         return int(digits_only)

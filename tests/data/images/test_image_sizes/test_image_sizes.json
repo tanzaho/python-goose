@@ -9,6 +9,10 @@
             "src": "http://example.com/example2.png",
             "width": 600,
             "height": 400
+        }, {
+            "src": "http://example.com/example3.png",
+            "width": 600,
+            "height": null
         }]
     }
 }
