@@ -61,6 +61,7 @@ KNOWN_CONTENT_TAGS = [
 
 KNOWN_HOST_CONTENT_TAGS = {
     'www.ebay.com': '.vi-price, noscript [itemprop="image"], #vi-desc-maincntr, #Results, [itemprop="articleBody"]',
+    'designspiration.net': '#ImageModule .saveImage, #ImageModule .saveDescription, #ImageModule .accreditationLink',
 }
 
 
