@@ -29,6 +29,7 @@ from host_utils import HostUtils
 
 KNOWN_HOST_REMOVE_SELECTORS = {
     'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
+    'www.linkedin.com': '.item-actions',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
