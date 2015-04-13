@@ -61,6 +61,8 @@ KNOWN_CONTENT_TAGS = [
 
 KNOWN_HOST_CONTENT_TAGS = {
     'www.ebay.com': '.vi-price, noscript [itemprop="image"], #vi-desc-maincntr, #Results, [itemprop="articleBody"]',
+    'twitpic.com': '#media-main',
+    'www.twitpic.com': { 'reference': 'twitpic.com' },
 }
 
 

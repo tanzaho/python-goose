@@ -29,6 +29,8 @@ from host_utils import HostUtils
 
 KNOWN_HOST_REMOVE_SELECTORS = {
     'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
+    'twitpic.com': '#media-stats, #media-comments',
+    'www.twitpic.com': { 'reference': 'twitpic.com' },
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
