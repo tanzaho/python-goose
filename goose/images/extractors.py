@@ -21,6 +21,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from goose.images.image import Image
+import re
 
 
 class ImageExtractor(object):
@@ -58,11 +59,17 @@ class ImageExtractor(object):
             image.src = src
         else:
             image.src = self.parser.getAttribute(image_node, 'src')
-        width_attribute = self.parser.getAttribute(image_node, 'width')
-        if width_attribute:
-            image.width = int(width_attribute)
-        height_attribute = self.parser.getAttribute(image_node, 'height')
-        if height_attribute:
-            image.height = int(height_attribute)
+        image.width = self.size_to_int(image_node, 'width')
+        image.height = self.size_to_int(image_node, 'height')
 
         return image
+
+    def size_to_int(self, image_node, attribute_name):
+        size = self.parser.getAttribute(image_node, attribute_name)
+        if size is None:
+            return None
+        digits_only = re.sub("\D", "", size)
+        if len(digits_only) is 0:
+            return None
+
+        return int(digits_only)
