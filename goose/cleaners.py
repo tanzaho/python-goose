@@ -31,6 +31,8 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
     'www.goal.com': '[href="http://www.adobe.com/go/getflashplayer"], .hidden',
     'www.linkedin.com': '.item-actions',
+    'twitpic.com': '#media-stats, #media-comments',
+    'www.twitpic.com': { 'reference': 'twitpic.com' },
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

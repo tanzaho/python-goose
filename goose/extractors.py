@@ -64,6 +64,8 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.goal.com': '[itemprop="articleBody"]',
     'hk.apple.nextmedia.com': '.ArticleContent',
     'www.linkedin.com': '.discussion-content, .description-module, .company-module',
+    'twitpic.com': '#media-main',
+    'www.twitpic.com': { 'reference': 'twitpic.com' },
 }
 
 
