@@ -68,6 +68,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.twitpic.com': { 'reference': 'twitpic.com' },
     '500px.com': '.the_photo, .description',
     'designspiration.net': '#ImageModule .saveImage, #ImageModule .saveDescription, #ImageModule .accreditationLink',
+    'slickdeals.net': '#dealTextContainer, #dealTextContainer, .textDescription, .editorsNotes, [itemprop="description"]',
 }
 
 

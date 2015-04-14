@@ -33,6 +33,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.linkedin.com': '.item-actions',
     'twitpic.com': '#media-stats, #media-comments',
     'www.twitpic.com': { 'reference': 'twitpic.com' },
+    'slickdeals.net': '.buynow',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
