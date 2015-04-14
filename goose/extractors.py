@@ -66,6 +66,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.linkedin.com': '.discussion-content, .description-module, .company-module',
     'twitpic.com': '#media-main',
     'www.twitpic.com': { 'reference': 'twitpic.com' },
+    '500px.com': '.the_photo, .description',
 }
 
 
