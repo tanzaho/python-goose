@@ -120,7 +120,6 @@ KNOWN_HOST_CONTENT_TAGS = {
     'ebooks.stackexchange.com': { 'reference': 'stackoverflow.com' },
     'datascience.stackexchange.com': { 'reference': 'stackoverflow.com' },
     'tridion.stackexchange.com': { 'reference': 'stackoverflow.com' },
-    'stackapps.com/questions': { 'reference': 'stackoverflow.com' },
     'engineering.stackexchange.com': { 'reference': 'stackoverflow.com' },
     'gaming.stackexchange.com': { 'reference': 'stackoverflow.com' },
     'photo.stackexchange.com': { 'reference': 'stackoverflow.com' },
