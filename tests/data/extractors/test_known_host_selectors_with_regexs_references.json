@@ -1,0 +1,6 @@
+{
+    "url": "http://webapps.stackexchange.com/example",
+    "expected": {
+        "domain": "webapps.stackexchange.com"
+    }
+}
