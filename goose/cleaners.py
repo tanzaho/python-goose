@@ -34,6 +34,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'twitpic.com': '#media-stats, #media-comments',
     'www.twitpic.com': { 'reference': 'twitpic.com' },
     'slickdeals.net': '.buynow',
+    'ask.fm': '.likeCombo, .like-face-container, .time',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
