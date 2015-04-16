@@ -35,6 +35,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.twitpic.com': { 'reference': 'twitpic.com' },
     'slickdeals.net': '.buynow',
     'ask.fm': '.likeCombo, .like-face-container, .time',
+    'www.businessinsider.com': '.popular-video, .see-also, .related-links-container',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
