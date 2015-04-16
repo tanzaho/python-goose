@@ -80,6 +80,7 @@ KNOWN_HOST_CONTENT_TAGS = {
         'stackoverflow.com$|stackexchange.com$': { 'reference': 'stackoverflow.com' },
     },
     'github.com': '[itemprop="mainContentOfPage"], [itemtype="http://schema.org/Person"], .org-header-wrapper, .blog-post-body',
+    'timesofindia.indiatimes.com': '.storydiv .Normal',
 }
 
 

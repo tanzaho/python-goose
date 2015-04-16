@@ -45,6 +45,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
         'stackoverflow.com$|stackexchange.com$': { 'reference': 'stackoverflow.com' },
     },
     'github.com': '.hidden',
+    'timesofindia.indiatimes.com': '.hidden',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
