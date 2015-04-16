@@ -29,6 +29,8 @@ from host_utils import HostUtils
 
 KNOWN_HOST_REMOVE_SELECTORS = {
     'www.ebay.com': '#desc_div, [class *= "drpdwn"], .dropdownmenu, #PaginationAndExpansionsContainer, #ConstraintCaptionContainer, .noImage div, .yesImage div, .yesImage img[src *= "://ir"], .yesVideo, [class ^= addCaption], .removeModalLayer',
+    'deals.ebay.com': { 'reference': 'www.ebay.com' },
+    'www.ebay.co.uk': { 'reference': 'www.ebay.com' },
     'www.goal.com': '[href="http://www.adobe.com/go/getflashplayer"], .hidden',
     'www.linkedin.com': '.item-actions',
     'twitpic.com': '#media-stats, #media-comments',
