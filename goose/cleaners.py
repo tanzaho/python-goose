@@ -52,6 +52,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.businessinsider.com': '.popular-video, .see-also, .related-links-container',
     'www.etsy.com': '[type="submit"]',
     'www.mashreghnews.ir': '.hidden',
+    'itunes.apple.com': '.hidden',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

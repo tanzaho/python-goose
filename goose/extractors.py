@@ -87,6 +87,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.businessinsider.com': '.post-content',
     'www.etsy.com': '#listing-page-cart, #image-carousel img, #description, .avatar, #bio, #shop-announcement-overlay .overlay-body, #shop_banner, .primary.view .listing-card',
     'www.mashreghnews.ir': '.news_body',
+    'itunes.apple.com': '.intro, [itemprop="description"], .product-review',
 }
 
 
