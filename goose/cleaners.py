@@ -48,6 +48,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'timesofindia.indiatimes.com': '.hidden',
     'www.lomography.com': 'header',
     'www.businessinsider.com': '.popular-video, .see-also, .related-links-container',
+    'www.etsy.com': '[type="submit"]',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

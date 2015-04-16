@@ -83,6 +83,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'timesofindia.indiatimes.com': '.storydiv .Normal',
     'www.lomography.com': '.content article, .content .detail, .content .meta',
     'www.businessinsider.com': '.post-content',
+    'www.etsy.com': '#listing-page-cart, #image-carousel img, #description, .avatar, #bio, #shop-announcement-overlay .overlay-body, #shop_banner, .primary.view .listing-card',
 }
 
 
