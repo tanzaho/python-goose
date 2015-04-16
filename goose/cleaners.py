@@ -47,6 +47,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'github.com': '.hidden',
     'timesofindia.indiatimes.com': '.hidden',
     'www.lomography.com': 'header',
+    'www.businessinsider.com': '.popular-video, .see-also, .related-links-container',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

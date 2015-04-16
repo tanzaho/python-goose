@@ -82,6 +82,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'github.com': '[itemprop="mainContentOfPage"], [itemtype="http://schema.org/Person"], .org-header-wrapper, .blog-post-body',
     'timesofindia.indiatimes.com': '.storydiv .Normal',
     'www.lomography.com': '.content article, .content .detail, .content .meta',
+    'www.businessinsider.com': '.post-content',
 }
 
 
