@@ -53,6 +53,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.etsy.com': '[type="submit"]',
     'www.mashreghnews.ir': '.hidden',
     'itunes.apple.com': '.hidden',
+    'www.yahoo.com': '.hidden',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
