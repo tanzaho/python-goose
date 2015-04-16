@@ -70,6 +70,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'designspiration.net': '#ImageModule .saveImage, #ImageModule .saveDescription, #ImageModule .accreditationLink',
     'slickdeals.net': '#dealTextContainer, #dealTextContainer, .textDescription, .editorsNotes, [itemprop="description"]',
     'ask.fm': '#profile-picture, .questionBox',
+    'www.lomography.com': '.content article, .content .detail, .content .meta',
 }
 
 
