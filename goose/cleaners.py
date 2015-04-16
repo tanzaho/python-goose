@@ -44,6 +44,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'regexs_references': {
         'stackoverflow.com$|stackexchange.com$': { 'reference': 'stackoverflow.com' },
     },
+    'github.com': '.hidden',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
