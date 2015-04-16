@@ -61,6 +61,8 @@ KNOWN_CONTENT_TAGS = [
 
 KNOWN_HOST_CONTENT_TAGS = {
     'www.ebay.com': '.vi-price, noscript [itemprop="image"], #vi-desc-maincntr, #Results, [itemprop="articleBody"]',
+    'deals.ebay.com': { 'reference': 'www.ebay.com' },
+    'www.ebay.co.uk': { 'reference': 'www.ebay.com' },
     'www.goal.com': '[itemprop="articleBody"]',
     'hk.apple.nextmedia.com': '.ArticleContent',
     'www.linkedin.com': '.discussion-content, .description-module, .company-module',
