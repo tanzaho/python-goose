@@ -55,6 +55,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'itunes.apple.com': '.hidden',
     'www.yahoo.com': '.hidden',
     'reporte.us': '.breadcrumb',
+    'www.reporte.us': { 'reference': 'reporte.us' },
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

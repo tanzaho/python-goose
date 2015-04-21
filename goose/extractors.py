@@ -90,6 +90,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'itunes.apple.com': '.intro, [itemprop="description"], .product-review',
     'www.yahoo.com': '.content',
     'reporte.us': '.noticia',
+    'www.reporte.us': { 'reference': 'reporte.us' },
 }
 
 
