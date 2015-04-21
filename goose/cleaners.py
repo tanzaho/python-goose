@@ -54,6 +54,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.mashreghnews.ir': '.hidden',
     'itunes.apple.com': '.hidden',
     'www.yahoo.com': '.hidden',
+    'blogs.wsj.com': '.socialByline, .linkBar, .pMetadataType-comments, .pMetadataType-button, #dShareTop',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

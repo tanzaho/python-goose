@@ -89,6 +89,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.mashreghnews.ir': '.news_body',
     'itunes.apple.com': '.intro, [itemprop="description"], .product-review',
     'www.yahoo.com': '.content',
+    'blogs.wsj.com': '.post-content, #dMainContent',
 }
 
 
