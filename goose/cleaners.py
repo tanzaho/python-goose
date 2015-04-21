@@ -54,6 +54,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.mashreghnews.ir': '.hidden',
     'itunes.apple.com': '.hidden',
     'www.yahoo.com': '.hidden',
+    'www.npr.org': '.internallink, [href ^= "javascript:"], .enlargebtn',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
