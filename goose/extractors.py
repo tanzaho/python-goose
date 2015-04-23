@@ -91,6 +91,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.yahoo.com': '.content',
     'lesson-school.com': '.post-single-text',
     'www.entrepreneur.com': '.article-body',
+    'www.lapatilla.com': '.entry-content',
 }
 
 
