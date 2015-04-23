@@ -92,6 +92,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'lesson-school.com': '.post-single-text',
     'www.entrepreneur.com': '.article-body',
     'www.lapatilla.com': '.entry-content',
+    'medium.com': '.postField',
 }
 
 
