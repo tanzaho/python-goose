@@ -93,6 +93,8 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.entrepreneur.com': '.article-body',
     'www.lapatilla.com': '.entry-content',
     'medium.com': '.postField',
+    'reporte.us': '.noticia',
+    'www.reporte.us': { 'reference': 'reporte.us' },
 }
 
 
