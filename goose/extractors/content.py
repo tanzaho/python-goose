@@ -61,6 +61,14 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.mashreghnews.ir': '.news_body',
     'itunes.apple.com': '.intro, [itemprop="description"], .product-review',
     'www.yahoo.com': '.content',
+    'lesson-school.com': '.post-single-text',
+    'www.entrepreneur.com': '.article-body',
+    'www.lapatilla.com': '.entry-content',
+    'medium.com': '.postField',
+    'reporte.us': '.noticia',
+    'www.reporte.us': { 'reference': 'reporte.us' },
+    'www.npr.org': '.storylocation',
+    'blogs.wsj.com': '.post-content, #dMainContent',
 }
 
 
