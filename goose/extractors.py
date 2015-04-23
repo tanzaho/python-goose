@@ -95,6 +95,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'medium.com': '.postField',
     'reporte.us': '.noticia',
     'www.reporte.us': { 'reference': 'reporte.us' },
+    'www.npr.org': '.storylocation',
 }
 
 

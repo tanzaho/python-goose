@@ -57,6 +57,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.entrepreneur.com': '.hidden',
     'reporte.us': '.breadcrumb',
     'www.reporte.us': { 'reference': 'reporte.us' },
+    'www.npr.org': '.internallink, [href ^= "javascript:"], .enlargebtn',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
