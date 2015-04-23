@@ -90,6 +90,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'itunes.apple.com': '.intro, [itemprop="description"], .product-review',
     'www.yahoo.com': '.content',
     'lesson-school.com': '.post-single-text',
+    'www.entrepreneur.com': '.article-body',
 }
 
 
