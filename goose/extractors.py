@@ -97,6 +97,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.reporte.us': { 'reference': 'reporte.us' },
     'www.npr.org': '.storylocation',
     'blogs.wsj.com': '.post-content, #dMainContent',
+    'route.newsactus.com': '.article .left-part p',
 }
 
 

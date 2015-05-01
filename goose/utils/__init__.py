@@ -27,6 +27,7 @@ import os
 import goose
 import codecs
 import urlparse
+from goose.utils.encoding import smart_str
 
 
 class BuildURL(object):
@@ -101,7 +102,12 @@ class URLHelper(object):
         # replace shebang is urls
         final_url = url_to_crawl.replace('#!', '?_escaped_fragment_=') \
                     if '#!' in url_to_crawl else url_to_crawl
-        link_hash = '%s.%s' % (hashlib.md5(final_url).hexdigest(), time.time())
+        try:
+            md5_object = hashlib.md5(final_url)
+        except UnicodeEncodeError:
+            final_url = smart_str(final_url)
+            md5_object = hashlib.md5(final_url)
+        link_hash = '%s.%s' % (md5_object.hexdigest(), time.time())
         return ParsingCandidate(final_url, link_hash)
 
 
