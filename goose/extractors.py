@@ -99,6 +99,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'blogs.wsj.com': '.post-content, #dMainContent',
     'www.huffingtonpost.co.uk': '#mainentrycontent',
     'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
+    'route.newsactus.com': '.article .left-part p',
 }
 
 
