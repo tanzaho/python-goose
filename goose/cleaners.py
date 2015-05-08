@@ -59,6 +59,8 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'www.reporte.us': { 'reference': 'reporte.us' },
     'www.npr.org': '.internallink, [href ^= "javascript:"], .enlargebtn',
     'blogs.wsj.com': '.socialByline, .linkBar, .pMetadataType-comments, .pMetadataType-button, #dShareTop',
+    'www.huffingtonpost.co.uk': '.hp-slideshow-wrapper',
+    'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
 }
 
 class OutputFormatterCleaner(clean.Cleaner):

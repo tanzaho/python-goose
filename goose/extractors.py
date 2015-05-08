@@ -97,6 +97,8 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.reporte.us': { 'reference': 'reporte.us' },
     'www.npr.org': '.storylocation',
     'blogs.wsj.com': '.post-content, #dMainContent',
+    'www.huffingtonpost.co.uk': '#mainentrycontent',
+    'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
     'route.newsactus.com': '.article .left-part p',
 }
 
