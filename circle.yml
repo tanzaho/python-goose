@@ -3,10 +3,10 @@ deployment:
     branch: master
     commands:
       - git remote add deis ssh://git@deis.staging.cronycle.com:2222/goose-staging.git
-      - git push -f deis $CIRCLE_SHA1:master
+      - git push -f deis master
   production:
     branch: production
     commands:
-      - git remote add deis ssh://git@deis.cronycle.com:2222/goose.git
-      - git push -f deis $CIRCLE_SHA1:master
+      - git remote add deis ssh://git@deis.prod.cronycle.com:2222/goose.git
+      - git push -f deis master
 

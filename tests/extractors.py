@@ -408,10 +408,6 @@ class TestExtractions(TestExtractionBase):
         article = self.getArticle()
         self.assert_content_html(article)
 
-    def test_huffingtonpost(self):
-        article = self.getArticle()
-        self.assert_content_html(article)
-
     def test_theguardian(self):
         article = self.getArticle()
         self.assert_content_html(article)
@@ -439,6 +435,10 @@ class TestKnownHosts(TestExtractionBase):
         self.assert_content_html(article)
 
     def test_known_host_selectors_with_regexs_references(self):
+        article = self.getArticle()
+        self.assert_content_html(article)
+
+    def test_huffingtonpost(self):
         article = self.getArticle()
         self.assert_content_html(article)
 
