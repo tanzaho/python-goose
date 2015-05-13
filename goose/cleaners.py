@@ -61,6 +61,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'blogs.wsj.com': '.socialByline, .linkBar, .pMetadataType-comments, .pMetadataType-button, #dShareTop',
     'www.huffingtonpost.co.uk': '.hp-slideshow-wrapper',
     'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
+    'www.theguardian.com': '[data-component="keywords"], [data-component="share"], .content__labels, .share-modal, .block-share, #comments',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
