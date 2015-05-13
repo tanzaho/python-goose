@@ -100,7 +100,7 @@ KNOWN_HOST_CONTENT_TAGS = {
     'www.huffingtonpost.co.uk': '#mainentrycontent',
     'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
     'route.newsactus.com': '.article .left-part p',
-    'www.theguardian.com': '[itemprop="articleBody"], .media-body, .content__main-column',
+    'www.theguardian.com': '[itemprop="articleBody"], .media-body, .content__main-column--gallery',
 }
 
 
