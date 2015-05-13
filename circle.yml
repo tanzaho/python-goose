@@ -7,6 +7,6 @@ deployment:
   production:
     branch: production
     commands:
-      - git remote add deis ssh://git@deis.cronycle.com:2222/goose.git
+      - git remote add deis ssh://git@deis.prod.cronycle.com:2222/goose.git
       - git push -f deis master
 
