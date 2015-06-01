@@ -61,6 +61,7 @@ KNOWN_HOST_REMOVE_SELECTORS = {
     'blogs.wsj.com': '.socialByline, .linkBar, .pMetadataType-comments, .pMetadataType-button, #dShareTop',
     'www.huffingtonpost.co.uk': '.hp-slideshow-wrapper',
     'www.huffingtonpost.com': { 'reference': 'www.huffingtonpost.co.uk' },
+    'www.france24.com': '.article-action, .tag, .category, .modification, .title, .emission_title, .emission-social-tabs, .g-carusel',
 }
 
 class OutputFormatterCleaner(clean.Cleaner):
