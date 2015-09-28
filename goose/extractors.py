@@ -155,7 +155,6 @@ class ContentExtractor(object):
             title_words.pop(-1)
 
         # rebuild the title
-        print title_words
         title = u" ".join(title_words).strip()
 
         return title
