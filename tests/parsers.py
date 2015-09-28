@@ -23,9 +23,12 @@ limitations under the License.
 import os
 import unittest
 
+from goose import Goose
 from goose.utils import FileHelper
 from goose.parsers import Parser
 from goose.parsers import ParserSoup
+from goose.configuration import Configuration
+from goose.extractors import StandardContentExtractor
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -108,6 +111,28 @@ class ParserBase(unittest.TestCase):
         self.assertEqual(len(span), 0)
         centers = self.parser.getElementsByTag(div, tag='center')
         self.assertEqual(len(centers), 1)
+
+    def getConfig(self):
+        config = Configuration()
+        config.enable_image_fetching = False
+        return config
+
+    def get_article(self, html):
+
+        config = self.getConfig()
+        self.parser = config.get_parser()
+
+        g = Goose(config=config)
+        return g.extract(url = "http://www.null.com", raw_html = html)
+
+
+    def test_content_presence(self):
+        html = self.get_html('parser/test2.html')
+        article = self.get_article(html)
+
+        print "Top Node"
+        print article.top_node
+        self.assertIsNotNone(article.top_node)
 
     def test_droptag(self):
         # test with 1 node
