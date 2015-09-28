@@ -43,6 +43,8 @@ class MockResponseExtractors(MockResponse):
         path = os.path.join(CURRENT_PATH, "data", "extractors", "%s.html" % current_test)
         path = os.path.abspath(path)
         content = FileHelper.loadResourceFile(path)
+        if content is None:
+            raise Exception ("Test could not be found")
         return content
 
 
@@ -69,7 +71,8 @@ class TestExtractionBase(BaseMockTests):
         try:
             return FileHelper.loadResourceFile(path)
         except IOError:
-            pass
+            print "No File"
+            
 
     def assert_cleaned_text(self, field, expected_value, result_value):
         """\
@@ -128,7 +131,7 @@ class TestExtractionBase(BaseMockTests):
                 continue
 
             # default assertion
-            msg = u"Error %s" % field
+            msg = u"Error %s \nexpected: %s\nresult: %s" % (field, expected_value, result_value)
             self.assertEqual(expected_value, result_value, msg=msg)
 
     def assert_content_html(self, article):
@@ -370,8 +373,7 @@ class TestExtractions(TestExtractionBase):
 
     def test_title_opengraph(self):
         article = self.getArticle()
-        fields = ['title']
-        self.runArticleAssertions(article=article, fields=fields)
+        self.runArticleAssertions(article=article, fields=['title'])
 
     def test_issue32(self):
         return 'pending'
