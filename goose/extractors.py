@@ -56,6 +56,8 @@ KNOWN_DESCRIPTION_META_TAGS = [
 ]
 KNOWN_CONTENT_TAGS = [
     {'attribute': 'id', 'value': 'story-body'},
+    {'attribute': 'class', 'value': 'post-body'},
+    {'attribute': 'class', 'value': 'entry-content'},
     {'attribute': 'itemprop', 'value': 'articleBody'},
     {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
 ]
