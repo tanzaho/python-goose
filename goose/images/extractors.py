@@ -41,19 +41,19 @@ class ImageExtractor(object):
             if self.parser.getAttribute(item, attr='property') == 'og:image':
                 src = self.parser.getAttribute(item, attr='content')
                 if src:
-                    images.append(self.from_image_node_to_image(item, src))
+                    images.append(self.from_image_node_to_image(item, src, extraction_type="og"))
         return images
 
     def get_content_images(self, top_node):
         images = []
         image_nodes = self.parser.getElementsByTag(top_node, tag='img')
         for image_node in image_nodes:
-            image = self.from_image_node_to_image(image_node)
+            image = self.from_image_node_to_image(image_node, extraction_type="content")
             images.append(image)
 
         return images
 
-    def from_image_node_to_image(self, image_node, src=None):
+    def from_image_node_to_image(self, image_node, src=None, extraction_type="NA"):
         image = Image()
         if src:
             image.src = src
@@ -61,6 +61,7 @@ class ImageExtractor(object):
             image.src = self.parser.getAttribute(image_node, 'src')
         image.width = self.size_to_int(image_node, 'width')
         image.height = self.size_to_int(image_node, 'height')
+        image.extraction_type = extraction_type
 
         return image
 
