@@ -60,6 +60,7 @@ KNOWN_CONTENT_TAGS = [
     {'attribute': 'class', 'value': 'entry-content'},
     {'attribute': 'itemprop', 'value': 'articleBody'},
     {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
+    {'tag': 'article'},
 ]
 
 KNOWN_HOST_CONTENT_TAGS = {
