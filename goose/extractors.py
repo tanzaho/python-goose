@@ -57,6 +57,7 @@ KNOWN_CONTENT_TAGS = [
     {'attribute': 'id', 'value': 'story-body'},
     {'attribute': 'itemprop', 'value': 'articleBody'},
     {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
+    {'tag': 'article'},
 ]
 
 KNOWN_HOST_CONTENT_TAGS = {
