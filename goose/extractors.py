@@ -61,6 +61,7 @@ KNOWN_CONTENT_TAGS = [
     {'attr': 'itemprop', 'value': 'articleBody'},
     {'attr': 'id', 'value': 'mw-content-text'}, # wiki sites
     {'tag': 'article'},
+    {'attr': 'class', 'value': 'transcripts'}, #slideshare
     {'attr': 'class', 'value': 'content'},
 ]
 
