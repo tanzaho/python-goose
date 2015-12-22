@@ -55,12 +55,13 @@ KNOWN_DESCRIPTION_META_TAGS = [
     {'attribute': 'name', 'value': 'Description'}
 ]
 KNOWN_CONTENT_TAGS = [
-    {'attribute': 'id', 'value': 'story-body'},
-    {'attribute': 'class', 'value': 'post-body'},
-    {'attribute': 'class', 'value': 'entry-content'},
-    {'attribute': 'itemprop', 'value': 'articleBody'},
-    {'attribute': 'id', 'value': 'mw-content-text'}, # wiki sites
+    {'attr': 'id', 'value': 'story-body'},
+    {'attr': 'class', 'value': 'post-body'},
+    {'attr': 'class', 'value': 'entry-content'},
+    {'attr': 'itemprop', 'value': 'articleBody'},
+    {'attr': 'id', 'value': 'mw-content-text'}, # wiki sites
     {'tag': 'article'},
+    {'attr': 'class', 'value': 'content'},
 ]
 
 KNOWN_HOST_CONTENT_TAGS = {
@@ -437,10 +438,9 @@ class ContentExtractor(object):
             return self.parser.combine_nodes(content_tags)
 
     def get_top_node_from_known_tags(self):
-        for known_content_tag in KNOWN_CONTENT_TAGS:
+        for item in KNOWN_CONTENT_TAGS:
             content_tags = self.parser.getElementsByTag(self.article.doc,
-                                                        attr=known_content_tag['attribute'],
-                                                        value=known_content_tag['value'])
+                                                        **item)
             content_tags = self.parser.combine_nodes(content_tags)
             if content_tags:
                 return content_tags
