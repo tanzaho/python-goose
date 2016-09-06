@@ -133,7 +133,7 @@ class ContentExtractor(object):
         in this case try to get ride of site name
         and use TITLE_SPLITTERS to reformat title
         """
-        if len(title)==0:
+        if len(title) == 0:
             return title
         # check if we have the site name in opengraph data
         if "site_name" in self.article.opengraph.keys():
@@ -150,6 +150,9 @@ class ContentExtractor(object):
         # TechCrunch | my wonderfull article
         # my wonderfull article | TechCrunch
         title_words = title.split()
+
+        if len(title_words) == 0:
+            return title
 
         # check if first letter is in TITLE_SPLITTERS
         # if so remove it
