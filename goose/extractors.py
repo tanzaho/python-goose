@@ -138,8 +138,9 @@ class ContentExtractor(object):
         # check if we have the site name in opengraph data
         if "site_name" in self.article.opengraph.keys():
             site_name = self.article.opengraph['site_name']
-            # remove the site name from title
-            title = title.replace(site_name, '').strip()
+            # remove the site name from title if there is something else
+            if title != site_name:
+                title = title.replace(site_name, '').strip()
 
         # try to remove the domain from url
         if self.article.domain:
